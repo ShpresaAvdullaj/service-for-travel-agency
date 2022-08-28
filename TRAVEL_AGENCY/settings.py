@@ -37,6 +37,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
+    "star_ratings",
+    "administrator.apps.AdministratorConfig",
+    "promotions",
+    "homepage",
 ]
 
 MIDDLEWARE = [
