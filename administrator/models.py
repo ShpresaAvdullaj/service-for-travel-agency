@@ -41,25 +41,23 @@ class City(models.Model):
 
 class Hotel(models.Model):
     name = models.CharField(max_length=50)
-    standart = GenericRelation(Rating)
+    standart = models.IntegerField(null=True)
     description = models.TextField(null=True)
     photo = models.ImageField(null=True, upload_to="hotels")
-    city = models.ForeignKey(
-        City, verbose_name=("city"), on_delete=models.CASCADE
-    )
+    city = models.ForeignKey(City, verbose_name=("city"), on_delete=models.CASCADE)
 
     class Meta:
         db_table = "hotels"
 
     def __str__(self):
-        return f"{self.name}-{self.standart}-{self.description}-{self.photo}-{self.city}"
+        return (
+            f"{self.name}-{self.standart}-{self.description}-{self.photo}-{self.city}"
+        )
 
 
 class Airport(models.Model):
     name = models.CharField(max_length=70)
-    city = models.ForeignKey(
-        City, verbose_name=("city"), on_delete=models.CASCADE
-    )
+    city = models.ForeignKey(City, verbose_name=("city"), on_delete=models.CASCADE)
 
     class Meta:
         db_table = "airports"
@@ -73,24 +71,39 @@ class Trip(models.Model):
         (" BB ", "bed & breakfast"),
         (" HB ", "half board"),
         (" FB ", "full board"),
-        (" AI ", "all inclusive")
+        (" AI ", "all inclusive"),
     ]
 
     city_from_where = models.ForeignKey(
-        City, verbose_name=("city from where"), on_delete=models.CASCADE,
-        related_name="city from where +")
-    Airport_from_where = models.ForeignKey(
-        Airport, verbose_name=("airport from where"), on_delete=models.CASCADE,
-        related_name="airport from where +")
+        City,
+        verbose_name=("city from where"),
+        on_delete=models.CASCADE,
+        related_name="city from where +",
+    )
+    airport_from_where = models.ForeignKey(
+        Airport,
+        verbose_name=("airport from where"),
+        on_delete=models.CASCADE,
+        related_name="airport from where +",
+    )
     city_to_where = models.ForeignKey(
-        City, verbose_name=("city to where"), on_delete=models.CASCADE,
-        related_name="city to where +")
+        City,
+        verbose_name=("city to where"),
+        on_delete=models.CASCADE,
+        related_name="city to where +",
+    )
     airport_to_where = models.ForeignKey(
-        Airport, verbose_name=("airport to where"), on_delete=models.CASCADE,
-        related_name="airport to where +")
+        Airport,
+        verbose_name=("airport to where"),
+        on_delete=models.CASCADE,
+        related_name="airport to where +",
+    )
     hotel_to_where = models.ForeignKey(
-        City, verbose_name=("hotel to where"), on_delete=models.CASCADE,
-        related_name="hotel to where +")
+        City,
+        verbose_name=("hotel to where"),
+        on_delete=models.CASCADE,
+        related_name="hotel to where +",
+    )
     date_of_departure = models.DateField(null=True)
     date_of_return = models.DateField(null=True)
     number_of_days = models.IntegerField()
