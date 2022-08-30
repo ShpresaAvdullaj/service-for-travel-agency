@@ -1,0 +1,28 @@
+{% extends 'administrator/index_location.html' %}
+{% block styles %}
+<style>
+    .header-title {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    </style>
+    {% endblock styles %}
+    {% block content %}
+<div class="header-title">
+    <h1>List of countries</h1>
+    <a class="btn btn-primary" href="{% url 'country-add' %}">Add Country</a>
+</div>
+<section>
+{% for country in countries %}
+<div>
+<h3>
+    <a href="{% url 'country-detail' pk=country.pk %}">
+        {{ country.name }}
+    
+</h3>
+<div>
+{% endfor %}
+</section>
+{% endblock content %}

@@ -1,3 +1,5 @@
+{% extends 'administrator/index_location.html' %}
+{% block styles %}
 <style>
     .header-title {
         display: flex;
@@ -6,15 +8,26 @@
         align-items: center;
     }
     </style>
-    
+    {% endblock styles %}
+
+    {% block content %}
     <div class="header-title">
         <h1>List of continents</h1>
         <a class="btn btn-primary" href="{% url 'continent-add' %}">Add Continent</a>
     </div>
     <section>
 {% for continent in continents %}
+<div>
+    <h3>
+        <a href="{% url 'continent-detail' pk=continent.pk %}">
+            {{ continent.name }}
+        </a>
+    </h3>
     <div>
-        {{ continent.name }}
-        </div>
     {% endfor %}
     </section>
+
+    <hr><hr>
+    {% endblock content%}
+
+    

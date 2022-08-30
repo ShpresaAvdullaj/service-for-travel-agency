@@ -1,0 +1,28 @@
+{% extends 'administrator/index_location.html' %}
+{% block styles %}
+<style>
+    .header-title {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    </style>
+    {% endblock styles %}
+    {% block content %}
+<div class="header-title">
+    <h1>List of cities</h1>
+    <a class="btn btn-primary" href="{% url 'city-add' %}">Add City</a>
+</div>
+<section>
+{% for city in cities %}
+<div>
+<h3>
+    <a href="{% url 'city-detail' pk=city.pk %}">
+        {{ city.name }}
+    
+</h3>
+<div>
+{% endfor %}
+</section>
+{% endblock content %}
