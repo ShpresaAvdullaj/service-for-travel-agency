@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from star_ratings.models import Rating
 from django.contrib.contenttypes.fields import GenericRelation
 
@@ -64,6 +65,9 @@ class Airport(models.Model):
 
     def __str__(self):
         return f"{self.name}-{self.city}"
+
+    def get_absolute_url(self):
+        return reverse("airport-detail", kwargs={"pk": self.pk})  
 
 
 class Trip(models.Model):
