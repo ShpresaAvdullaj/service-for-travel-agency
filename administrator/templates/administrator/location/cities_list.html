@@ -1,5 +1,6 @@
 {% extends 'administrator/index_location.html' %}
 {% block styles %}
+{{ block.super }}
 <style>
     .header-title {
         display: flex;
@@ -18,7 +19,7 @@
 {% for city in cities %}
 <div>
 <h3>
-    <a href="{% url 'city-detail' pk=city.pk %}">
+    <a href="{% url 'city-detail' pk=city.pk %}" style="text-decoration: none;">
         {{ city.name }}
     
 </h3>

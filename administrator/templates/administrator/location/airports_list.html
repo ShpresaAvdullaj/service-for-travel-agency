@@ -1,0 +1,27 @@
+{% extends 'administrator/index_location.html'%}
+
+{% block styles %}
+{{ block.super }}
+<style>
+    .header-title {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    </style>
+    {% endblock styles %}
+    {% block content %}
+    <div class="header-title">
+        <h1>List of airports</h1>
+        <a class="btn btn-primary" href="{% url 'airport-add' %}">Add Airport</a>
+    </div>
+    <section>
+    {% for airport in airports %}
+    <div>
+        <a href="{% url 'airport-detail' pk=airport.pk %}" style="text-decoration: none;">{{ airport.name}}</a>
+         {{ airport.city }}
+        </div>
+    {% endfor %}
+    </section>
+    {% endblock content %}

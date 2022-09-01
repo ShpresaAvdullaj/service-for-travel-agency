@@ -1,5 +1,6 @@
 {% extends 'administrator/index_location.html' %}
 {% block styles %}
+{{ block.super }}
 <style>
     .header-title {
         display: flex;
@@ -19,7 +20,7 @@
 {% for continent in continents %}
 <div>
     <h3>
-        <a href="{% url 'continent-detail' pk=continent.pk %}">
+        <a href="{% url 'continent-detail' pk=continent.pk %}" style="text-decoration: none;">
             {{ continent.name }}
         </a>
     </h3>

@@ -1,14 +1,45 @@
 from django.shortcuts import render
 
-from administrator.forms import CityForm, ContinentForm, CountryForm, TripForm
-from .models import City, Continent, Country, Trip
+from administrator.forms import (
+    AirportForm,
+    CityForm,
+    ContinentForm,
+    CountryForm,
+    TripForm,
+)
+from .models import Airport, City, Continent, Country, Trip
 from django.shortcuts import redirect, get_object_or_404
 
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView, DeleteView, DetailView
+
+
+class AirportListView(ListView):
+    queryset = Airport.objects.all()
+    template_name = "administrator/location/airports_list.html"
+    context_object_name = "airports"
+
+
+class AirportCreateView(CreateView):
+    model = Airport
+    fields = ["name", "city"]
+    template_name = "administrator/location/airport_add.html"
+
+
+class AirportDetailView(DetailView):
+    model = Airport
+    template_name = "administrator/location/airport_detail.html"
 
 
 def index(request):
     return render(request, "administrator/index_location.html")
+
+
+def delete_trip(request, pk):
+    trip = get_object_or_404(Trip, pk=pk)
+    if request.method == "POST":
+        trip.delete()
+        return redirect("trips-list")
+    return render("administrator/trips/trip_delete.html", context={"trip": trip})
 
 
 def get_continent_detail(request, pk):
@@ -36,6 +67,11 @@ def get_city_detail(request, pk):
         "administrator/location/city_detail.html",
         context={"city": city},
     )
+
+
+def get_trip_detail(request, pk):
+    trip = get_object_or_404(Trip, pk=pk)
+    return render("administrator/trips/trip_detail.html", context={"trip": trip})
 
 
 def get_trips_list(request):
