@@ -1,8 +1,17 @@
-{% extends 'administrator/index_location.html' %}
-
-{% block content %}
-<br><br><br><br>
-                   <h1>{{ airport.name }}</h1><h3>{{airport.city}}</h3> 
-        </div>
-    <hr>
+{% extends 'administrator/index_location.html' %} {% block content %}
+<br /><br /><br /><br />
+<div class="d-flex justify-content-between align-items-center">
+  <h1>{{ airport.name }}</h1>
+  <div>
+    <a href="{% url 'airport-edit' pk=airport.pk %}" class="btn btn-warning"
+      >Edit</a
+    >
+    <a href="{% url 'airport-delete' pk=airport.pk %}" class="btn btn-danger"
+      >Delete</a
+    >
+  </div>
+</div>
+<h1>{{ airport.name }}</h1>
+<h3>{{airport.city}}</h3>
+<hr />
 {% endblock content %}

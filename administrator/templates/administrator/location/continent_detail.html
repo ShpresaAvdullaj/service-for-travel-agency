@@ -2,8 +2,12 @@
 
 {% block content %}
 <br><br><br><br>
-        <div class="d-flex justify-content-between align-items-center">
-                   <h1>{{ continent.name }}</h1> 
-        </div>
-    <hr>
+<div class="d-flex justify-content-between align-items-center">
+    <h1>{{ continent }}</h1>
+    <div>
+        <a href="{% url 'continent-edit' pk=continent.pk %}" class="btn btn-warning">Edit</a>
+        <a href="{% url 'continent-delete' pk=continent.pk %}" class="btn btn-danger">Delete</a>
+    </div>
+</div>     
+<hr>
 {% endblock content %}

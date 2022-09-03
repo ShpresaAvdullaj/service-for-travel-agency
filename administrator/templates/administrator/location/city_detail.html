@@ -2,7 +2,13 @@
 
 {% block content %}
 <br><br><br><br>
-                   <h1>{{ city.name }}</h1><h3>{{city.country}}</h3> 
-        </div>
-    <hr>
+<div class="d-flex justify-content-between align-items-center">
+    <h1>{{ city.name }}</h1>
+    <div>
+        <a href="{% url 'city-edit' pk=city.pk %}" class="btn btn-warning">Edit</a>
+        <a href="{% url 'delete-city' pk=city.pk %}" class="btn btn-danger">Delete</a>
+    </div>
+</div>
+<h1>{{ city.name }}</h1><h3>{{city.country}}</h3> 
+<hr>
 {% endblock content %}

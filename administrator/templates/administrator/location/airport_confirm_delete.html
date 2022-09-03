@@ -1,0 +1,16 @@
+{% extends 'administrator/index_location.html' %}
+
+{% block content %}
+<h1>Delete <small>{{ airport.name }}</small></h1>
+<form action="" method="post">
+    {% csrf_token %}
+    <div class="alert alert-warning" role="alert">
+      Are you sure you want to delete
+      <em>{{ airport.name }}</em>
+    </div>
+    <div>
+      <button class="btn btn-danger" type="submit">Yes, remove it!</button>
+      <a class="btn btn-secondary" href="{% url 'airport-detail' pk=airport.pk %}">NO!!!!</a>
+    </div>
+</form>
+{% endblock content %}

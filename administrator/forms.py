@@ -1,3 +1,4 @@
+from pyexpat import model
 from django import forms
 from .models import City, Continent, Country, Hotel, Trip, PurchaseOfATrip, Airport
 
@@ -64,11 +65,11 @@ def _to_airport(val):
 
 
 TYPES = [
-        (" BB ", "bed & breakfast"),
-        (" HB ", "half board"),
-        (" FB ", "full board"),
-        (" AI ", "all inclusive"),
-    ]
+    (" BB ", "bed & breakfast"),
+    (" HB ", "half board"),
+    (" FB ", "full board"),
+    (" AI ", "all inclusive"),
+]
 
 
 class TripForm(forms.Form):
@@ -97,6 +98,12 @@ class TripForm(forms.Form):
     promoted = forms.BooleanField()
     number_of_places_per_adult = forms.IntegerField()
     number_of_places_per_child = forms.IntegerField()
+
+
+class TripModelForm(forms.ModelForm):
+    class Meta:
+        model = Trip
+        fields = "__all__"
 
 
 class PurchaseOfATripForm(forms.ModelForm):

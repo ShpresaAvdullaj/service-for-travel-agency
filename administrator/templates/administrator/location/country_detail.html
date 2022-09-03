@@ -1,8 +1,18 @@
-{% extends 'administrator/index_location.html' %}
+{% extends 'administrator/index_location.html' %} {% block content %}
+<br /><br /><br /><br />
+<div class="d-flex justify-content-between align-items-center">
+  <h1>{{ country }}</h1>
+  <div>
+    <a href="{% url 'country-edit' pk=country.pk %}" class="btn btn-warning"
+      >Edit</a
+    >
+    <a href="{% url 'country-delete' pk=country.pk %}" class="btn btn-danger"
+      >Delete</a
+    >
+  </div>
+</div>
+<h1>{{ country.name }}</h1>
+<h3>{{country.continent}}</h3>
 
-{% block content %}
-<br><br><br><br>
-                   <h1>{{ country.name }}</h1><h3>{{country.continent}}</h3> 
-        </div>
-    <hr>
+<hr />
 {% endblock content %}
