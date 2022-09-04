@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{{ block.super }}
+{% block content %}
+<br><br>
+<div class="d-flex justify-content-between align-items-center">
+  <h1>{{ hotel.name }}</h1>
+  <div>
+    <a href="{% url 'hotel-edit' pk=hotel.pk %}" class="btn btn-warning">Edit</a>
+    <a href="{% url 'hotel-delete' pk=hotel.pk %}" class="btn btn-danger">Delete</a>
+  </div>
+</div>
+<h4>Located on {{ hotel.city }}</h4>
+<div>
+  {% if hotel.photo %}
+  <img src="{{ hotel.photo.url }}" alt="Profile picture here ...">
+  {% else %}
+  <div class="alert alert-warning" role="alert">No photo for this hotel</div>
+  {% endif %}
+</div>
+<div>
+  {{ hotel.description }}
+</div>
+{% endblock content %}

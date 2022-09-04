@@ -1,17 +1,16 @@
-{% extends 'administrator/index_location.html' %}
-
+{% extends 'base.html' %}
+{{block.super}}
 {% load crispy_forms_tags %}
-{% load crispy_forms_filters %}
 
 {% block content %}
-{% if airport %}
-<h1>Edit</h1>
+{% if hotel %}
+<h1>Edit <small>{{ hotel.name }}</small></h1>
 {% else %}
-<h1>Add Airport</h1>
+<h1>Add Hotel</h1>
 {% endif %}
-<form action="" method="post" novalidate>
+<form action="" method="post" novalidate enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form|crispy}}
+    {{ form|crispy }}
     <div class="text-center">
         <button class="btn btn-primary" type="submit">Save</button>
     </div>

@@ -13,6 +13,9 @@ class Continent(models.Model):
     def __str__(self):
         return f"{self.name}"
 
+    def get_absolute_url(self):
+        return reverse("continent-detail", kwargs={"pk": self.pk})
+
 
 class Country(models.Model):
     name = models.CharField(max_length=50)
@@ -26,6 +29,9 @@ class Country(models.Model):
     def __str__(self):
         return f"{self.name}-{self.continent}"
 
+    def get_absolute_url(self):
+        return reverse("country-detail", kwargs={"pk": self.pk})
+
 
 class City(models.Model):
     name = models.CharField(max_length=50)
@@ -38,6 +44,9 @@ class City(models.Model):
 
     def __str__(self):
         return f"{self.name}-{self.country}"
+
+    def get_absolute_url(self):
+        return reverse("city-detail", kwargs={"pk": self.pk})
 
 
 class Hotel(models.Model):
@@ -55,6 +64,9 @@ class Hotel(models.Model):
             f"{self.name}-{self.standart}-{self.description}-{self.photo}-{self.city}"
         )
 
+    def get_absolute_url(self):
+        return reverse("hotel-detail", kwargs={"pk": self.pk})
+
 
 class Airport(models.Model):
     name = models.CharField(max_length=70)
@@ -67,7 +79,7 @@ class Airport(models.Model):
         return f"{self.name}-{self.city}"
 
     def get_absolute_url(self):
-        return reverse("airport-detail", kwargs={"pk": self.pk})  
+        return reverse("airport-detail", kwargs={"pk": self.pk})
 
 
 class Trip(models.Model):
@@ -103,7 +115,7 @@ class Trip(models.Model):
         related_name="airport to where +",
     )
     hotel_to_where = models.ForeignKey(
-        City,
+        Hotel,
         verbose_name=("hotel to where"),
         on_delete=models.CASCADE,
         related_name="hotel to where +",
@@ -122,7 +134,7 @@ class Trip(models.Model):
         db_table = "trips"
 
     def __str__(self):
-        return f"{self.from_where}-{self.to_where}-{self.date_of_departure}-{self.date_of_return}-{self.type}-{self.price_for_adult}-{self.price_for_child}-{self.number_of_places_per_adult}-{self.number_of_places_per_child}"
+        return f"{self.city_to_where}-{self.date_of_departure}-{self.date_of_return}-{self.type}"
 
 
 class PurchaseOfATrip(models.Model):

@@ -1,3 +1,7 @@
+{% extends 'base.html' %}
+
+{% block styles %}
+{{ block.super }}
 <style>
 .header-title {
     display: flex;
@@ -6,7 +10,9 @@
     align-items: center;
 }
 </style>
-
+{% endblock styles %}
+{% block content %}
+<br><br><br>
 <div class="header-title">
     <h1>List of trips</h1>
     <a class="btn btn-primary" href="{% url 'add-trip' %}">Add Trip</a>
@@ -21,3 +27,4 @@
     </div>
 {% endfor %}
 </section>
+{% endblock content %}

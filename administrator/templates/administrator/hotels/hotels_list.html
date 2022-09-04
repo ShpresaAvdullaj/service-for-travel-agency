@@ -1,0 +1,41 @@
+{% extends 'base.html' %} 
+{% block styles %}
+{{ block.super }}
+<style>
+  .card{
+    width:80%; 
+    background:grey;
+    padding:25px;
+    margin-bottom:70px;
+    height: 90%;
+  }
+
+</style>
+{% endblock styles %}
+{% block content %}
+<br><br><br>
+<div class="d-flex justify-content-between align-items-center">
+  <h1>Hotels</h1>
+  <a class="btn btn-primary" href="{% url 'add-hotel' %}">Add Hotel</a>
+</div>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for hotel in hotels %}
+    <div v-for="hotel in hotels" class="col" >  
+      <a href="{% url 'hotel-detail' pk=hotel.pk %}" style="text-decoration: none;">{{ hotel.name }}</a>
+      <div class="card" >
+        {% if hotel.photo %}
+        <img class="card-img-top" src="{{ hotel.photo.url }}" alt="Profile picture here ...">
+        {% else %}
+        <div class="alert alert-warning" role="alert">No photo for this hotel</div>
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title fw-bold">
+            {{ hotel.name}} {{ hotel.city }}
+          </h5>
+          <p class="card-text">{{ hotel.description }}</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}
