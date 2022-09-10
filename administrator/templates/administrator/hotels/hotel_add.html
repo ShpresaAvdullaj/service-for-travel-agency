@@ -1,18 +1,25 @@
-{% extends 'base.html' %}
-{{block.super}}
-{% load crispy_forms_tags %}
-
-{% block content %}
-{% if hotel %}
+{% extends 'base.html' %} {{block.super}} {% load crispy_forms_tags %} 
+{% block content %} {% if hotel %}
 <h1>Edit <small>{{ hotel.name }}</small></h1>
 {% else %}
 <h1>Add Hotel</h1>
 {% endif %}
 <form action="" method="post" novalidate enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <div class="text-center">
-        <button class="btn btn-primary" type="submit">Save</button>
+  {% csrf_token %}
+  <div class="form-group row">
+    <div class="form-group col-md-6 mb-0">{{ form.name|as_crispy_field }}</div>
+    <div class="form-group col-md-6 mb-0">{{ form.photo|as_crispy_field }}</div>
+  </div>
+
+  <div class="form-group row">
+    <div class="form-group col-md-6 mb-0">
+      {{ form.standart|as_crispy_field }}
     </div>
+    <div class="form-group col-md-6 mb-0">{{ form.city|as_crispy_field }}</div>
+  </div>
+  {{ form.description|as_crispy_field }}
+  <div class="text-center">
+    <button class="btn btn-primary" type="submit">Save</button>
+  </div>
 </form>
 {% endblock content %}

@@ -6,8 +6,9 @@ urlpatterns = [
 
     path("administrator/trips/", views.get_trips_list, name="trips-list"),
     path("administrator/trips/add/", views.add_trip, name="add-trip"),
-    path("administrator/trips/delete/", views.delete_trip, name="delete-trip"),
-    path("administrator/trips/<int:pk>/", views.get_trip_detail, name="trip-detail"),
+    path("administrator/trips/<int:pk>/delete/", views.delete_trip, name="delete-trip"),
+    path("administrator/trips/<int:pk>", views.get_trip_detail, name="trip-detail"),
+    path("administrator/trips/<int:pk>/edit/", views.TripUpdateView.as_view(), name="trip-edit"),
 
     path(
         "administrator/location/continents",
@@ -100,7 +101,7 @@ urlpatterns = [
         name="airport-edit",
     ),
 
-    
+
     path(
         "administrator/hotels/",
         views.HotelListView.as_view(),
@@ -126,5 +127,7 @@ urlpatterns = [
         views.HotelUpdateView.as_view(),
         name="hotel-edit",
     ),
-
+    path("administrator/purchases/", views.get_list_of_trips_to_purchase, name="list-of-trips-to-purchase"),
+    path("administrator/purchases/<int:pk>/", views.purchase_trip, name="purchase-form"),
+    path("administrator/purchases/all/", views.get_list_of_purchases, name="list-of-purchases"),
 ]

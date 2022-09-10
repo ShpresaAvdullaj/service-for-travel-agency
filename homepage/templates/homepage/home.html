@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    .home-container{
+        display: grid;
+        grid-template-columns: 1fr 3fr ;
+    }
+</style>
+<h1>Home Template</h1>
+<div class="home-container">
+    <div><hr>
+        <h3>Browse Topics</h3>
+    </hr>
+    {% if trips %}
+    <div>
+        <a href="{% url 'home' %}?q={{trip.pk}}">All</a>
+     </div>
+     <div>
+        <a href="{% url 'home' %}?q={{trip.city_to_where.country.continent.name}}">Continents</a>
+     </div>
+     <div>
+        <a href="{% url 'home' %}?q={{trip.city_to_where.country.name}}">Countries</a>
+     </div>
+     <div>
+        <a href="{% url 'home' %}?q={{city.name}}">Cities</a>
+     </div>
+     {% endif %}
+    </div>
+
+<aside>
+    {% for trip in trips %}
+    <br>
+      {{ trip.city_from_where}}{{ trip.city_to_where}}
+    {% endfor %}
+</aside>
+</div>
+{% endblock content %}

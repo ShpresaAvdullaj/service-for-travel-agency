@@ -8,10 +8,11 @@ from administrator.forms import (
     ContinentForm,
     CountryForm,
     HotelForm,
+    PurchaseOfATripForm,
     TripForm,
     TripModelForm,
 )
-from .models import Airport, City, Continent, Country, Hotel, Trip
+from .models import Airport, City, Continent, Country, Hotel, PurchaseOfATrip, Trip
 
 from django.views.generic import (
     CreateView,
@@ -242,7 +243,7 @@ def add_trip(request):
         form = TripModelForm(request.POST, request.FILES)
         if form.is_valid():
             trip = form.save()
-            return redirect(trip, permanent=False)
+            return redirect("trip-detail", pk=trip.pk)
     else:
         form = TripModelForm()
     return render(request, "administrator/trips/trip_add.html", context={"form": form})
@@ -260,7 +261,7 @@ def delete_trip(request, pk):
 
 def get_trip_detail(request, pk):
     trip = get_object_or_404(Trip, pk=pk)
-    return render("administrator/trips/trip_detail.html", context={"trip": trip})
+    return render(request, "administrator/trips/trip_detail.html", context={"trip": trip})
 
 
 def get_trips_list(request):
@@ -270,5 +271,54 @@ def get_trips_list(request):
         "administrator/trips/trips_list.html",
         context={
             "trips": trips,
+        },
+    )
+
+
+class TripUpdateView(UpdateView):
+    model = Trip
+    form_class = TripModelForm
+    template_name = "administrator/trips/trip_add.html"
+
+
+# CRUD FOR PURCHASE OF A TRIP
+
+def get_list_of_trips_to_purchase(request):
+    trips = Trip.objects.all()
+    return render(
+        request,
+        "administrator/purchases/list_of_trips_to_purchase.html",
+        context={
+            "trips": trips,
+        },
+    )
+
+
+def purchase_trip(request, pk):
+    trip = get_object_or_404(Trip, pk=pk)
+    if request.method == "POST":
+        form = PurchaseOfATripForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("trip-detail", pk=trip.pk)
+    else:
+        form = PurchaseOfATripForm()
+    return render(
+        request,
+        "administrator/purchases/purchase_form.html",
+        context={
+            "form": form,
+            "trip": trip,
+        },
+    )
+
+
+def get_list_of_purchases(request):
+    purchases = PurchaseOfATrip.objects.all()
+    return render(
+        request,
+        "administrator/purchases/list_of_purchases.html",
+        context={
+            "purchases": purchases,
         },
     )

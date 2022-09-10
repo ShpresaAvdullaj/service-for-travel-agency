@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>All Purchases</h1>
+<table class="table">
+  <thead>
+    <th>Trip pk</th>
+    <th>Purchase pk</th>
+    <th>Trip number of days</th>
+    <th>Purchase price for adult</th>
+    <th>Purchase number of adult</th>
+  </thead>
+  <tbody>
+  {% for purchase in purchases %}
+  <tr>
+      <td>{{ purchase.trip.pk }}</td>
+      <td>{{ purchase.pk }}</td>
+      <td>{{ purchase.trip.number_of_days }}</td>
+      <td>{{ purchase.trip.price_for_adult }}</td>
+      <td>{{ purchase.number_of_adults_participant }}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock content %}

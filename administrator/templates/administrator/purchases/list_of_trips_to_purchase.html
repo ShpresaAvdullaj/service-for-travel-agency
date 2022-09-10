@@ -13,14 +13,10 @@
 {% endblock styles %}
 {% block content %}
 <br><br><br>
-<div class="header-title">
-    <h1>List of trips</h1>
-    <a class="btn btn-primary" href="{% url 'add-trip' %}">Add Trip</a>
-</div>
 <section>
 {% for trip in trips %}
 <div>
-    <a href="{% url 'trip-detail' pk=trip.pk %}" style="text-decoration: none;">Trip number {{trip.pk}}</a>
+    <a href="{% url 'purchase-form' pk=trip.pk %}" style="text-decoration: none;">Trip number {{trip.pk}}</a>
             {{ trip.city_from_where }} - {{ trip.city_to_where }} - {{ trip.airport_to_where }}
         </div>
         <p>{{ trip.airport_from_where}}</p>
