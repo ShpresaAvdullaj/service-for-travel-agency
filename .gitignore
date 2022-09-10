@@ -128,6 +128,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-#
+#this command allow git to know folder media but not files inside her
 media/*
+#this command wants to tell us that ignore folder media but keep files inside her in a local way
+#to commit and push an empty git folder
 !media/.gitkeep
