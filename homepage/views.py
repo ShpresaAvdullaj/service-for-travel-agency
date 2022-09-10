@@ -1,4 +1,3 @@
-from django.http import HttpResponse
 from django.shortcuts import render
 from administrator.models import Country, Trip, Continent, City
 from django.db.models import Q

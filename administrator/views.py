@@ -261,16 +261,26 @@ def delete_trip(request, pk):
 
 def get_trip_detail(request, pk):
     trip = get_object_or_404(Trip, pk=pk)
-    return render(request, "administrator/trips/trip_detail.html", context={"trip": trip})
+    return render(
+        request, "administrator/trips/trip_detail.html", context={"trip": trip}
+    )
 
 
 def get_trips_list(request):
     trips = Trip.objects.all()
+    purchase = PurchaseOfATrip.objects.all()
+    price_for_adult = Trip.objects.values_list("price_for_adult")
+    number_of_adult_participant = PurchaseOfATrip.objects.values_list(
+        "number_of_adults_participant"
+    )
     return render(
         request,
         "administrator/trips/trips_list.html",
         context={
             "trips": trips,
+            "purchase": purchase,
+            "price_for_adult": price_for_adult,
+            "number_of_adult_participant": number_of_adult_participant
         },
     )
 
@@ -282,6 +292,7 @@ class TripUpdateView(UpdateView):
 
 
 # CRUD FOR PURCHASE OF A TRIP
+
 
 def get_list_of_trips_to_purchase(request):
     trips = Trip.objects.all()
@@ -300,16 +311,14 @@ def purchase_trip(request, pk):
         form = PurchaseOfATripForm(request.POST)
         if form.is_valid():
             form.save()
+            purchase = form.save()
             return redirect("trip-detail", pk=trip.pk)
     else:
         form = PurchaseOfATripForm()
     return render(
         request,
         "administrator/purchases/purchase_form.html",
-        context={
-            "form": form,
-            "trip": trip,
-        },
+        context={"form": form, "trip": trip, "purchase": purchase},
     )
 
 

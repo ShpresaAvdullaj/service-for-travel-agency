@@ -28,8 +28,9 @@ INSTALLED_APPS = [
 
     "crispy_forms",
     "crispy_bootstrap5",
-
     "star_ratings",
+    "mathfilters",
+    
     "administrator",
     "promotions",
     "homepage",
@@ -48,7 +49,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "TRAVEL_AGENCY.urls"
+ROOT_URLCONF = "core.urls"
 
 TEMPLATES = [
     {
@@ -66,7 +67,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "TRAVEL_AGENCY.wsgi.application"
+WSGI_APPLICATION = "core.wsgi.application"
 
 
 # Database
