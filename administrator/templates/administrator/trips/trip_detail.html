@@ -1,8 +1,25 @@
-{% extends 'administrator/index_location.html' %}
-
-{% block content %}
-<br><br><br><br>
-                  {{trip.pk}}
-        </div>
-    <hr>
+{% extends 'base.html' %} {% block content %} <br /><br /><br /><br />
+<div class="d-flex justify-content-between align-items-center">
+  <h1>{{ trip.pk }}</h1>
+  <div>
+    <a href="{% url 'trip-edit' pk=trip.pk %}" class="btn btn-warning">Edit</a>
+    <a href="{% url 'delete-trip' pk=trip.pk %}" class="btn btn-danger"
+      >Delete</a
+    >
+  </div>
+</div>
+<h1>{{ trip.city_from_where }} to {{ trip.city_to_where}}</h1>
+<h3>{{trip.airport_from_where}} to {{trip.airport_to_where}}</h3>
+<h3>
+  Jorney lasts for {{trip.number_of_days}} from {{ trip.date_of_departure}} to
+  {{ trip.date_of_return }}
+</h3>
+<hr />
+{% if purchases %}
+{% for purchase in purchases %}
+<div>
+Purchase for this trip is {{purchase.trip.price_for_adult}}*{{purchase.number_of_adult_participant}}
+</div>
+{% endfor %}
+{% endif %}
 {% endblock content %}

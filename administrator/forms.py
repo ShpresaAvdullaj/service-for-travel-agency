@@ -1,4 +1,3 @@
-from pyexpat import model
 from django import forms
 from .models import City, Continent, Country, Hotel, Trip, PurchaseOfATrip, Airport
 
@@ -103,7 +102,22 @@ class TripForm(forms.Form):
 class TripModelForm(forms.ModelForm):
     class Meta:
         model = Trip
-        fields = "__all__"
+        fields = [
+            "city_from_where",
+            "city_to_where",
+            "airport_from_where",
+            "airport_to_where",
+            "hotel_to_where",
+            "date_of_departure",
+            "date_of_return",
+            "number_of_days",
+            "price_for_adult",
+            "price_for_child",
+            "number_of_places_per_adult",
+            "number_of_places_per_child",
+            "type",
+            "promoted",
+        ]
 
 
 class PurchaseOfATripForm(forms.ModelForm):

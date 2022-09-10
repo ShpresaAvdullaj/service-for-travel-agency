@@ -1,10 +1,6 @@
 {% extends 'base.html' %} {% load crispy_forms_tags %} {% load crispy_forms_filters %} {% block content %}
-{% if trip %}
-<h1>Edit</h1>
-{% else %}
-<h1>Add Trip</h1>
-{% endif %}
-<form action="" method="post" novalidate enctype="multipart/form-data">
+<br><br><br>
+<form action="" method="post" novalidate>
   {% csrf_token %}
   <form action="" method="post" novalidate>
     {% csrf_token %}

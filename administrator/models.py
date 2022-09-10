@@ -96,17 +96,17 @@ class Trip(models.Model):
         on_delete=models.CASCADE,
         related_name="city from where +",
     )
-    airport_from_where = models.ForeignKey(
-        Airport,
-        verbose_name=("airport from where"),
-        on_delete=models.CASCADE,
-        related_name="airport from where +",
-    )
     city_to_where = models.ForeignKey(
         City,
         verbose_name=("city to where"),
         on_delete=models.CASCADE,
         related_name="city to where +",
+    )
+    airport_from_where = models.ForeignKey(
+        Airport,
+        verbose_name=("airport from where"),
+        on_delete=models.CASCADE,
+        related_name="airport from where +",
     )
     airport_to_where = models.ForeignKey(
         Airport,
@@ -123,12 +123,12 @@ class Trip(models.Model):
     date_of_departure = models.DateField(null=True)
     date_of_return = models.DateField(null=True)
     number_of_days = models.IntegerField()
-    type = models.CharField(max_length=10, choices=TYPES)
     price_for_adult = models.IntegerField()
     price_for_child = models.IntegerField()
-    promoted = models.BooleanField(default=False)
     number_of_places_per_adult = models.IntegerField()
     number_of_places_per_child = models.IntegerField()
+    type = models.CharField(max_length=10, choices=TYPES)
+    promoted = models.BooleanField(default=False)
 
     class Meta:
         db_table = "trips"
@@ -136,20 +136,18 @@ class Trip(models.Model):
     def __str__(self):
         return f"{self.city_to_where}-{self.date_of_departure}-{self.date_of_return}-{self.type}"
 
+    def get_absolute_url(self):
+        return reverse("trip-detail", kwargs={"pk": self.pk})
+
 
 class PurchaseOfATrip(models.Model):
 
-    number_of_adults = Trip.number_of_places_per_adult
-    number_of_child = Trip.number_of_places_per_child
-    price_for_adult = Trip.price_for_adult
-    price_for_child = Trip.price_for_child
-
-    trip = models.CharField(max_length=10)
-    participant_details = models.CharField(max_length=100)
-    amount = models.IntegerField()
+    trip = models.ForeignKey(Trip, verbose_name=("trip"), on_delete=models.CASCADE)
+    number_of_adults_participant = models.IntegerField(default=0)
+    number_of_child_participant = models.IntegerField(default=0)
 
     class Meta:
         db_table = "purchasesfortrip"
 
     def __str__(self):
-        return f"Your trip {self.trip} {self.participant_details} costs {self.amount}"
+        return f"Your trip{self.number_of_adults_participant}{self.number_of_child_participant}"
