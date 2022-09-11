@@ -19,20 +19,13 @@
 </div>
 <section>
 {% for trip in trips %}
-{% if purchase %}
 <div>
     <a href="{% url 'trip-detail' pk=trip.pk %}" style="text-decoration: none;">Trip number {{trip.pk}}</a>
             {{ trip.city_from_where }} - {{ trip.city_to_where }} - {{ trip.airport_to_where }}
         </div>
         <p>{{ trip.airport_from_where}}</p>
         <div>{{ trip.hotel_to_where }}</div>
-        <div>
-            {% with answer=trip.price_for_adult %}
-    number_of_adults_participant * price_for_adult = {{ answer|mul:purchase.number_of_adults_participant}}
-    {% endwith %}
-        </div>
     </div>
-{% endif %}
 {% endfor %}
 </section>
 {% endblock content %}

@@ -15,11 +15,7 @@
   {{ trip.date_of_return }}
 </h3>
 <hr />
-{% if purchases %}
-{% for purchase in purchases %}
 <div>
-Purchase for this trip is {{purchase.trip.price_for_adult}}*{{purchase.number_of_adult_participant}}
+Purchase for this trip is {{price}}
 </div>
-{% endfor %}
-{% endif %}
 {% endblock content %}
