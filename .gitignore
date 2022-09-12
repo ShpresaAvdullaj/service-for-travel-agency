@@ -133,3 +133,6 @@ media/*
 #this command wants to tell us that ignore folder media but keep files inside her in a local way
 #to commit and push an empty git folder
 !media/.gitkeep
+
+static/*
+!static/.gitkeep
