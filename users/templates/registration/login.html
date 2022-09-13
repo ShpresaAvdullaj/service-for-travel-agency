@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+<meta charset="UTF-8">
+<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/all.css'>
+<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css'>
+{% load static %}
+<link rel='stylesheet' href="{% static 'css/login.css' %}">
+</head>
+<body>
+
+
+<div class="container">
+	<figure><img src="{% static 'images/figured-logo-white-med.png' %}"></figure>
+	<div class="screen">
+		<div class="screen__content">
+			<form class="login">
+				<div class="login__field">
+					<i class="login__icon fas fa-user"></i>
+					<input type="text" class="login__input" placeholder="User name / Email">
+				</div>
+				<div class="login__field">
+					<i class="login__icon fas fa-lock"></i>
+					<input type="password" class="login__input" placeholder="Password">
+				</div>
+				<button class="button login__submit">
+					<span class="button__text">Log In Now</span>
+					<i class="button__icon fas fa-chevron-left"></i>
+				</button>
+				<div class="register"><b>Don't you have an account? Register now!</b></div>
+								
+			</form>
+		</div>		
+	</div>
+</div> 
+</body>
+</html>

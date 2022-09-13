@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -34,6 +35,7 @@ INSTALLED_APPS = [
     "administrator",
     "promotions",
     "homepage",
+    "users",
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -117,8 +119,13 @@ USE_TZ = True
 
 
 STATIC_URL = "static/"
-STATIC_ROOT = BASE_DIR / "static"
-STATICFILES_DIRS = [BASE_DIR / "assets"]
+STATIC_ROOT = BASE_DIR / "assets"
+#STATICFILES_DIRS = [BASE_DIR / "assets"]
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static/"),
+)
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"

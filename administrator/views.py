@@ -9,7 +9,6 @@ from administrator.forms import (
     CountryForm,
     HotelForm,
     PurchaseOfATripForm,
-    TripForm,
     TripModelForm,
 )
 from .models import Airport, City, Continent, Country, Hotel, PurchaseOfATrip, Trip
@@ -308,7 +307,7 @@ def purchase_trip(request, pk):
     if request.method == "POST":
         form = PurchaseOfATripForm(request.POST)
         if form.is_valid():
-            form.save()
+            form.save(commit=False)
             return redirect("trip-detail", pk=trip.pk)
     else:
         form = PurchaseOfATripForm()
