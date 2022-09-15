@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
     "star_ratings",
     "mathfilters",
+    "django_bootstrap_icons",
     
     "administrator",
     "promotions",
