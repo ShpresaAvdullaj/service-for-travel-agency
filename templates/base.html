@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="MOON TRAVEL AGENCY">
+    <meta name="description" content="KALEMI TRAVEL AGENCY">
     <meta name="author" content="ALBANIA">
     <title>{% block title %}TRAVEL AGENCY {% endblock title %}</title>
     {% block styles %}
@@ -58,11 +58,9 @@
   </head>
   <body class="d-flex flex-column h-100">
     <header>
-      <div class="header_image"><img src="{% static 'images/kalemi1.png' %}"></div>
-    </header>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
       <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'home' %}">MOON TRAVEL AGENCY</a>
+        <a class="navbar-brand" href="{% url 'home' %}">KALEMI TRAVEL AGENCY</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -101,8 +99,10 @@
         </div>
       </div>
     </nav>
-  <br><br><br>
-  <div class="d-flex justify-content-around align-items-end">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-light">
+      <a class="navbar-brand"><img src="{% static 'images/kalemi1.png' %}"></a></nav>
+  <nav id="search-contact" class="navbar navbar-expand-lg navbar-dark bg-light">
+  <div class="d-flex justify-content-evenly align-items-end">
   <div class="input-group">
     <div class="form-outline">
       <form method="GET" action="{% url 'home' %}">
@@ -113,18 +113,20 @@
       {% bs_icon 'search' size='1.0em' %}
     </button>
   </div>
-  <button id="contact-button" type="button" class="btn btn-info btn-sm btn-block" >Contact Us
+  <button id="contact-button" type="button" class="btn btn-info btn-sm btn-block">Contact Us
     {% bs_icon 'phone' size='1.0em' %}
   </button>
 </div>
+</nav>
 </div>
+</header>
   
       {% block content %}{% endblock content %}
     </div>
   </main>
   <footer class="footer mt-auto py-3 bg-light">
     <div class="container">
-      <marquee direction="left">MOON TRAVEL AGENCY The best in town, from 1980 in your service for happy
+      <marquee direction="left">KALEMI TRAVEL AGENCY The best in town, from 1980 in your service for happy
         vactions and journey around the world.
       </marquee>
     </div>
