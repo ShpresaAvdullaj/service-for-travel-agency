@@ -52,13 +52,14 @@
 
     </style>
     {% endblock styles %}
-
+    {% load bootstrap_icons %}
     {% load static %}
     <link rel='stylesheet' href="{% static 'js/search.js' %}">
   </head>
   <body class="d-flex flex-column h-100">
-
-  <header>
+    <header>
+      <div class="header_image"><img src="{% static 'images/kalemi1.png' %}"></div>
+    </header>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
       <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'home' %}">MOON TRAVEL AGENCY</a>
@@ -69,6 +70,9 @@
           <ul class="navbar-nav me-auto mb-2 mb-md-0">
             <li class="nav-item">
               <a class="nav-link " href="{% url 'home' %}">HomePage</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link " href=#>Promotions</a>
             </li>
             <li class="dropdown">
               <button class="btn btn-primary">Administrator</button>
@@ -97,18 +101,23 @@
         </div>
       </div>
     </nav>
-  </header>
   <br><br><br>
+  <div class="d-flex justify-content-around align-items-end">
   <div class="input-group">
     <div class="form-outline">
       <form method="GET" action="{% url 'home' %}">
-        <input id="search-input" type="text" name="q" placeholder="Search Trips..."/>
+        <input id="search-input" type="text" name="q" placeholder="Search Trips..." maxlength="14" size="54"/>
       </form>
     </div>
     <button id="search-button" type="button" class="btn btn-primary">
-      <i class="fas fa-search"></i>
+      {% bs_icon 'search' size='1.0em' %}
     </button>
   </div>
+  <button id="contact-button" type="button" class="btn btn-info btn-sm btn-block" >Contact Us
+    {% bs_icon 'phone' size='1.0em' %}
+  </button>
+</div>
+</div>
   
       {% block content %}{% endblock content %}
     </div>

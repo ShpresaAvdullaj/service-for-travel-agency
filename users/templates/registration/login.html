@@ -14,22 +14,29 @@
 	<figure><img src="{% static 'images/figured-logo-white-med.png' %}"></figure>
 	<div class="screen">
 		<div class="screen__content">
-			<form class="login">
+			<form class="login" method="POST" action="">
+				{% csrf_token %}
 				<div class="login__field">
 					<i class="login__icon fas fa-user"></i>
-					<input type="text" class="login__input" placeholder="User name / Email">
+					<input type="text" name="username" class="login__input" placeholder="User name / Email">
 				</div>
 				<div class="login__field">
 					<i class="login__icon fas fa-lock"></i>
-					<input type="password" class="login__input" placeholder="Password">
+					<input type="password" name="password" class="login__input" placeholder="Password">
 				</div>
-				<button class="button login__submit">
+				<button class="button login__submit" type="submit" value="Login">
 					<span class="button__text">Log In Now</span>
-					<i class="button__icon fas fa-chevron-left"></i>
+					<i class="button__icon fas fa-chevron-circle-right"></i>
 				</button>
-				<div class="register"><b>Don't you have an account? Register now!</b></div>
-								
+				<div class="register"><b>Don't you have an account? Register now!</b></div>				
 			</form>
+			<div class="alert alert-info alert-dismissible fade in">
+			{% if messages %}
+    {% for message in messages %}
+    {{ message }}
+    {% endfor %}
+</div>
+{% endif %}
 		</div>		
 	</div>
 </div> 

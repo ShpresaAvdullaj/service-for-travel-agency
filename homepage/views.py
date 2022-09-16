@@ -21,4 +21,5 @@ def home(request):
         "cities": cities,
         "countries": countries,
     }
+
     return render(request, "homepage/home.html", context)
