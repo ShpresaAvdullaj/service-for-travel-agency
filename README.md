@@ -3,10 +3,10 @@ This is a short project for service in travel agency
 Backend Programming Sample App
 Clone the code:
 
-git clone https://github.com/gledi/online-store.git
+git clone https://github.com/ShpresaAvdullaj/service-for-travel-agency.git
 Enter the directory where the code was cloned and create a virtual environment
 
-cd online-store
+cd service-for-travel-agency
 python -m venv venv
 Activate the virtual environment
 
