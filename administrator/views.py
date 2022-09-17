@@ -260,14 +260,16 @@ def delete_trip(request, pk):
 
 def get_trip_detail(request, pk):
     trip = get_object_or_404(Trip, pk=pk)
-    purchases = PurchaseOfATrip.objects.all()
-    for purchase in purchases:
-        if trip.id == purchase.id:
-            price = trip.price_for_adult * purchase.number_of_adults_participant
+    purchases = trip.purchaseofatrip_set.all()
+
+    revenue = sum(
+        trip.price_for_adult * purchase.number_of_adults_participant
+        for purchase in purchases
+    )
     return render(
         request,
         "administrator/trips/trip_detail.html",
-        context={"trip": trip, "price": price},
+        context={"trip": trip, "revenue": revenue},
     )
 
 
