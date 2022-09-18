@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'administrator/index_location.html' %}
 
 {% block content %}
 <h1>All Purchases</h1>
@@ -17,7 +17,7 @@
       <td>{{ purchase.pk }}</td>
       <td>{{ purchase.trip.number_of_days }}</td>
       <td>{{ purchase.trip.price_for_adult }}</td>
-      <td>{{ purchase.number_of_adults_participant }}</td>
+     
   </tr>
   {% endfor %}
   </tbody>

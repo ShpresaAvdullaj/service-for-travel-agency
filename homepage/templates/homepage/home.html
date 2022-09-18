@@ -11,7 +11,7 @@
     <div><hr>
         <h3>Browse Trips</h3>
     </hr>
-    {% if trips %}
+    {% if trips %} 
     <div>
         <a href="{% url 'home' %}?q={{trip.pk}}">All</a>
      </div>
@@ -29,9 +29,9 @@
 
 <aside>
     {% for trip in trips %}
-    <br>
-      {{ trip.city_from_where}}{{ trip.city_to_where}}
-    {% endfor %}
+    <div><a href="{% url 'trip-detail' pk=trip.pk %}" style="text-decoration: none;">{{trip.city_from_where.name}}-{{trip.city_to_where.name}}</a>
+    Jorney lasts for {{trip.number_of_days}} from {{ trip.date_of_departure}} to {{ trip.date_of_return }}
+    {% endfor %}</div>
 </aside>
 </div>
 {% endblock content %}

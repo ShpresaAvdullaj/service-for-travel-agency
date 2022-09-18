@@ -1,6 +1,16 @@
 from django.shortcuts import render
 from administrator.models import Country, Trip, Continent, City
 from django.db.models import Q
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+from django.conf import settings
+
+
+@csrf_exempt
+def get_stripe_pubkey(request):
+    if request.method == "GET":
+        pub_key = settings.STRIPE_PUBLISHABLE_KEY
+        return JsonResponse({"publicKey": pub_key})
 
 
 def home(request):
