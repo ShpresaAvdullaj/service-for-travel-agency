@@ -5,7 +5,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 import stripe
 from django.http import JsonResponse
-#from django.contrib.auth.decorators import login_required, permission_required
+
+# from django.contrib.auth.decorators import login_required, permission_required
 
 from administrator.forms import (
     AirportForm,
@@ -268,7 +269,8 @@ def get_trip_detail(request, pk):
     purchases = trip.purchases.all()
 
     revenue = sum(
-        trip.price_for_adult * purchase.quantity_a + trip.price_for_child * purchase.quantity_ch
+        trip.price_for_adult * purchase.quantity_a
+        + trip.price_for_child * purchase.quantity_ch
         for purchase in purchases
     )
     return render(
@@ -343,9 +345,11 @@ def get_list_of_purchases(request):
 # @login_required
 def purchase_trips(request, trip_id):
     trip = get_object_or_404(Trip, pk=trip_id)
-    quantity_a = int(request.GET.get("quantity", "1"))
-    quantity_ch = int(request.GET.get("quantity", "1"))
-    if quantity_a > trip.remaining_places_adults or quantity_ch > trip.remaining_places_child:
+    quantity = int(request.GET.get("quantity", "1"))
+    if (
+        quantity > trip.remaining_places_adults
+        or quantity > trip.remaining_places_child
+    ):
         print("canot buy")
         return JsonResponse({"error": "Not that many seats available"}, status=400)
 
@@ -355,7 +359,7 @@ def purchase_trips(request, trip_id):
         success_url = (
             domain_url
             + "payments/success?session_id={CHECKOUT_SESSION_ID}"
-            + f"&trip_id={trip.pk}&quantity={quantity_a}&quantity={quantity_ch}"
+            + f"&trip_id={trip.pk}&quantity={quantity}"
         )
         try:
             # ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the session ID set as a query param
@@ -368,15 +372,15 @@ def purchase_trips(request, trip_id):
                     {
                         "price_data": {
                             "currency": "eur",
-                            "unit_amount_a": trip.price_for_adult * 100,
-                            "unit_amount_ch": trip.price_for_child * 100,
+                            "unit_amount": trip.price_for_adult
+                            * trip.number_of_places_per_adult
+                            + trip.price_for_child * trip.number_of_places_per_child,
                             "product_data": {
                                 "name": trip.city_to_where,
                                 "description": trip.hotel_to_where,
                             },
                         },
-                        "quantity_a": quantity_a,
-                        "quantity_ch": quantity_ch,
+                        "quantity": quantity,
                     }
                 ],
             )

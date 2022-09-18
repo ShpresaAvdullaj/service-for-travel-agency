@@ -85,7 +85,7 @@
           <ul class="navbar-nav ms-auto mb-2 mb-md-0">
             {% if user.is_authenticated %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+              <a class="nav-link" href="{% url 'logout' %}"><p style="color:white;">{{ user.username }} Logout</p></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">My trips</a>

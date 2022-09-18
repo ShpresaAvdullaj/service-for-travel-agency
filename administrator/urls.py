@@ -140,3 +140,6 @@ urlpatterns = [
     ),
     path("administrator/trips/<int:trip_id>/", views.purchase_trips, name="purchase-trip"),
 ]
+
+
+#add purchase success and purchase cancelled
