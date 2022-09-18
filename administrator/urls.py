@@ -138,4 +138,5 @@ urlpatterns = [
         views.get_list_of_purchases,
         name="list-of-purchases",
     ),
+    path("administrator/trips/<int:trip_id>/", views.purchase_trips, name="purchase-trip"),
 ]

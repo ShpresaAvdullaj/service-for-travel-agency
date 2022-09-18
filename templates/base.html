@@ -101,21 +101,19 @@
     </nav>
     <nav class="navbar navbar-expand-lg navbar-dark bg-light">
       <a class="navbar-brand"><img src="{% static 'images/kalemi1.png' %}"></a></nav>
-  <nav id="search-contact" class="navbar navbar-expand-lg navbar-dark bg-light">
-  <div class="d-flex justify-content-evenly align-items-end">
-  <div class="input-group">
-    <div class="form-outline">
+  <nav id="search-contact">
+  <div class="d-flex justify-content-between align-items-end">
       <form method="GET" action="{% url 'home' %}">
-        <input id="search-input" type="text" name="q" placeholder="Search Trips..." maxlength="14" size="54"/>
+        <input id="search-input" type="search" name="q" placeholder="Search Trips..." aria-label="Search" maxlength="14" />
+        <button id="search-button" type="button" class="btn btn-primary btn-sm btn-block">
+          {% bs_icon 'search' size='1.0em' %}
+        </button>
+        <button id="contact-button" type="button" class="btn btn-info btn-sm btn-block">Contact Us
+          {% bs_icon 'phone' size='1.0em' %}
+        </button>
       </form>
-    </div>
-    <button id="search-button" type="button" class="btn btn-primary">
-      {% bs_icon 'search' size='1.0em' %}
-    </button>
   </div>
-  <button id="contact-button" type="button" class="btn btn-info btn-sm btn-block">Contact Us
-    {% bs_icon 'phone' size='1.0em' %}
-  </button>
+
 </div>
 </nav>
 </div>

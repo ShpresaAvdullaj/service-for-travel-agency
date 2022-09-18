@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'administrator/index_location.html' %}
 {% load mathfilters %}
 {% block styles %}
 {{ block.super }}
@@ -18,14 +18,20 @@
     <a class="btn btn-primary" href="{% url 'add-trip' %}">Add Trip</a>
 </div>
 <section>
+<div class="row row-cols-1 row-cols-md-3 g-4">
 {% for trip in trips %}
-<div>
-    <a href="{% url 'trip-detail' pk=trip.pk %}" style="text-decoration: none;">Trip number {{trip.pk}}</a>
-            {{ trip.city_from_where }} - {{ trip.city_to_where }} - {{ trip.airport_to_where }}
+<div v-for="trip in trips" class="col" >
+    <a href="{% url 'trip-detail' pk=trip.pk %}" style="text-decoration: none;">{{trip.city_from_where.name}}-{{trip.city_to_where.name}}</a>
+        <div class="card" >
+            <p>{{ trip.city_from_where }} - {{ trip.city_to_where }} - {{ trip.airport_to_where }}{{ trip.airport_from_where}}</p>
+            {% if trip.hotel_to_where.photo %}
+            <img class="card-img-top" src="{{ trip.hotel_to_where.photo.url }}" alt="Profile picture here ...">
+            {% else %}
+            <div class="alert alert-warning" role="alert">No photo for this hotel</div>
+            {% endif %}
         </div>
-        <p>{{ trip.airport_from_where}}</p>
-        <div>{{ trip.hotel_to_where }}</div>
-    </div>
+</div>
 {% endfor %}
+</div>
 </section>
 {% endblock content %}

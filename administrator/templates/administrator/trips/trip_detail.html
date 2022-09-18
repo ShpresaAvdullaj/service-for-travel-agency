@@ -1,14 +1,11 @@
-{% extends 'base.html' %} {% block content %} <br /><br /><br /><br />
+{% extends 'administrator/index_location.html' %}{% load static %} {% block content %} <br /><br /><br /><br />
 <div class="d-flex justify-content-between align-items-center">
-  <h1>{{ trip.pk }}</h1>
+  <h2>{{ trip.city_from_where }} to {{ trip.city_to_where}}</h2>
   <div>
     <a href="{% url 'trip-edit' pk=trip.pk %}" class="btn btn-warning">Edit</a>
-    <a href="{% url 'delete-trip' pk=trip.pk %}" class="btn btn-danger"
-      >Delete</a
-    >
+    <a href="{% url 'delete-trip' pk=trip.pk %}" class="btn btn-danger">Delete</a>
   </div>
 </div>
-<h1>{{ trip.city_from_where }} to {{ trip.city_to_where}}</h1>
 <h3>{{trip.airport_from_where}} to {{trip.airport_to_where}}</h3>
 <h3>
   Jorney lasts for {{trip.number_of_days}} from {{ trip.date_of_departure}} to
@@ -18,4 +15,22 @@
 <div>
 Revenue from this trip: {{ revenue }}
 </div>
+<div>
+  <p>Seats adult: <b>{{ trip.number_of_places_per_adult }}</b> Still Available: <b>{{ movie.remaining_places_adults }}</b></p>
+  <p>Seats children: <b>{{ trip.number_of_places_per_child }}</b> Still Available: <b>{{ movie.remaining_places_child }}</b></p>
+</div>
+<div class="d-flex justify-content-center align-items-center">
+  <input class="form-control" type="number" name="quantity_a" value="1" max="{{ movie.remaining_places_adults }}" min="1">
+  <input class="form-control" type="number" name="quantity_ch" value="1" max="{{ movie.remaining_places_child }}" min="1">
+  <button class="btn btn-primary" id="submitBtn">Purchase</button>
+</div>
 {% endblock content %}
+{% block scripts %}
+{{ block.super }}
+<script>
+const PAYMENTS_KEY_URL = "{% url 'payments_pubkey' %}";
+const PAYMENTS_CHECKOUT_SESSION_URL = "{% url 'purchase-trip' trip_id=trip.pk %}";
+</script>
+<script src="https://js.stripe.com/v3/"></script>
+<script src="{% static 'js/purchase.js' %}"></script>
+{% endblock scripts %}

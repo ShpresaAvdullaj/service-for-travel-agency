@@ -10,20 +10,29 @@ def register_request(request):
         form = NewUserForm(request.POST)
         if form.is_valid():
             user = form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
             login(request, user)
             messages.success(request, "Registration successful.")
             return redirect("login")
         messages.error(request, "Unsuccessful registration. Invalid information.")
     form = NewUserForm()
     return render(
-        request=request,
+        request,
         template_name="registration/register.html",
-        context={"register_form": form},
+        context={"form": form},
     )
 
+
+"""def sign_up(request):
+    if request.method == "POST":
+        form = UserCreateForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect("home")
+    else:
+        form = UserCreateForm()
+    return render(request, "sign_up.html", {"form": form})
+"""
 
 def loginPage(request):
     if request.user.is_authenticated:

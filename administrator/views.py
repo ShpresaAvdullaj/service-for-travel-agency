@@ -1,6 +1,11 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
+import stripe
+from django.http import JsonResponse
+#from django.contrib.auth.decorators import login_required, permission_required
 
 from administrator.forms import (
     AirportForm,
@@ -260,10 +265,10 @@ def delete_trip(request, pk):
 
 def get_trip_detail(request, pk):
     trip = get_object_or_404(Trip, pk=pk)
-    purchases = trip.purchaseofatrip_set.all()
+    purchases = trip.purchases.all()
 
     revenue = sum(
-        trip.price_for_adult * purchase.number_of_adults_participant
+        trip.price_for_adult * purchase.quantity_a + trip.price_for_child * purchase.quantity_ch
         for purchase in purchases
     )
     return render(
@@ -332,3 +337,49 @@ def get_list_of_purchases(request):
             "purchases": purchases,
         },
     )
+
+
+@csrf_exempt
+# @login_required
+def purchase_trips(request, trip_id):
+    trip = get_object_or_404(Trip, pk=trip_id)
+    quantity_a = int(request.GET.get("quantity", "1"))
+    quantity_ch = int(request.GET.get("quantity", "1"))
+    if quantity_a > trip.remaining_places_adults or quantity_ch > trip.remaining_places_child:
+        print("canot buy")
+        return JsonResponse({"error": "Not that many seats available"}, status=400)
+
+    if request.method == "GET":
+        domain_url = "http://localhost:8000/"
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        success_url = (
+            domain_url
+            + "payments/success?session_id={CHECKOUT_SESSION_ID}"
+            + f"&trip_id={trip.pk}&quantity={quantity_a}&quantity={quantity_ch}"
+        )
+        try:
+            # ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the session ID set as a query param
+            checkout_session = stripe.checkout.Session.create(
+                success_url=success_url,
+                cancel_url=domain_url + "payments/cancelled/",
+                payment_method_types=["card"],
+                mode="payment",
+                line_items=[
+                    {
+                        "price_data": {
+                            "currency": "eur",
+                            "unit_amount_a": trip.price_for_adult * 100,
+                            "unit_amount_ch": trip.price_for_child * 100,
+                            "product_data": {
+                                "name": trip.city_to_where,
+                                "description": trip.hotel_to_where,
+                            },
+                        },
+                        "quantity_a": quantity_a,
+                        "quantity_ch": quantity_ch,
+                    }
+                ],
+            )
+            return JsonResponse({"sessionId": checkout_session["id"]})
+        except Exception as e:
+            return JsonResponse({"error": str(e)})

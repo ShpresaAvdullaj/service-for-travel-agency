@@ -1,5 +1,7 @@
 from django.db import models
 from django.urls import reverse
+from django.db.models import Sum
+
 from star_ratings.models import Rating
 from django.contrib.contenttypes.fields import GenericRelation
 
@@ -60,6 +62,7 @@ class Hotel(models.Model):
         db_table = "hotels"
 
     def __str__(self):
+
         return (
             f"{self.name}-{self.standart}-{self.photo}-{self.city}"
         )
@@ -123,10 +126,10 @@ class Trip(models.Model):
     date_of_departure = models.DateField(null=True)
     date_of_return = models.DateField(null=True)
     number_of_days = models.IntegerField()
-    price_for_adult = models.IntegerField()
-    price_for_child = models.IntegerField()
-    number_of_places_per_adult = models.IntegerField()
-    number_of_places_per_child = models.IntegerField()
+    price_for_adult = models.IntegerField(default=20)
+    price_for_child = models.IntegerField(default=15)
+    number_of_places_per_adult = models.IntegerField(default=0)
+    number_of_places_per_child = models.IntegerField(default=0)
     type = models.CharField(max_length=10, choices=TYPES)
     promoted = models.BooleanField(default=False)
 
@@ -139,15 +142,25 @@ class Trip(models.Model):
     def get_absolute_url(self):
         return reverse("trip-detail", kwargs={"pk": self.pk})
 
+    @property
+    def remaining_places_adults(self):
+        reserved_for_adults = self.purchases.aggregate(Sum("quantity_a"))
+        return self.number_of_places_per_adult - reserved_for_adults.get("quantity__sum", 0)
+
+    @property
+    def remaining_places_child(self):
+        reserved_for_child = self.purchases.aggregate(Sum("quantity_ch"))
+        return self.number_of_places_per_child - reserved_for_child.get("quantity__sum", 0)
+
 
 class PurchaseOfATrip(models.Model):
-
-    trip = models.ForeignKey(Trip, verbose_name=("trip"), on_delete=models.CASCADE)
-    number_of_adults_participant = models.IntegerField(default=0)
-    number_of_child_participant = models.IntegerField(default=0)
+    trip = models.ForeignKey(Trip, related_name="purchases", verbose_name=("trip"), on_delete=models.CASCADE)
+    quantity_a = models.IntegerField(default=1)
+    quantity_ch = models.IntegerField(default=1)
+    purchased_on = models.DateTimeField()
 
     class Meta:
-        db_table = "purchasesfortrip"
+        db_table = "purchases"
 
     def __str__(self):
-        return f"Your trip{self.number_of_adults_participant}{self.number_of_child_participant}"
+        return f"Your trip{self.quantity_a}{self.quantity_ch}"

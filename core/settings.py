@@ -1,5 +1,11 @@
 from pathlib import Path
 
+from environs import Env
+
+
+env = Env()
+env.read_env()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -127,3 +133,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Stripe payments
+STRIPE_PUBLISHABLE_KEY = os.environ.get("STRIPE_PUBLISHABLE_KEY","pk_test_51Lj87dDZHTljrfiz8S2ElBsTSO66kF0xKo1EGf3q6G5GEzA9cPlHQRTqSXxYNMsubpdH1SwetqlM90hIgc2ZsoND00hnSIf7Wp")
+STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY","sk_test_51Lj87dDZHTljrfizb7BrCjV18SlIHkTaQAosO7OPMbm8389wwVAKu7HsX0uq6rJTCYhZEkdmhcySU3JIdBu8vxxl00wLIZt9wy")
