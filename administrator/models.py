@@ -62,7 +62,7 @@ class Hotel(models.Model):
         db_table = "hotels"
 
     def __str__(self):
-        return f"{self.name}-{self.standart}-{self.photo}-{self.city}"
+        return f"{self.name}-{self.photo}-{self.city}"
 
     def get_absolute_url(self):
         return reverse("hotel-detail", kwargs={"pk": self.pk})
