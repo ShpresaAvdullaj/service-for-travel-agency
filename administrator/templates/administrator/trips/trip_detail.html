@@ -16,12 +16,12 @@
 Revenue from this trip: {{ revenue }}
 </div>
 <div>
-  <p>Seats adult: <b>{{ trip.number_of_places_per_adult }}</b> Still Available: <b>{{ movie.remaining_places_adults }}</b></p>
-  <p>Seats children: <b>{{ trip.number_of_places_per_child }}</b> Still Available: <b>{{ movie.remaining_places_child }}</b></p>
+  <p>Seats adult: <b>{{ trip.number_of_places_per_adult }}</b><b>Price for adult:{{ trip.price_for_adult }}</b> Still Available: <b>{{ trip.remaining_places_adults }}</b></p>
+  <p>Seats children: <b>{{ trip.number_of_places_per_child }}</b> <b>Price for child:{{ trip.price_for_child }}</b> Still Available: <b>{{ trip.remaining_places_child }}</b></p>
 </div>
 <div class="d-flex justify-content-center align-items-center">
-  <input class="form-control" type="number" name="quantity_a" value="1" max="{{ movie.remaining_places_adults }}" min="1">
-  <input class="form-control" type="number" name="quantity_ch" value="1" max="{{ movie.remaining_places_child }}" min="1">
+  <input class="form-control" type="number" name="quantity_a" value="1" max="{{ trip.remaining_places_adults }}" min="1">
+  <input class="form-control" type="number" name="quantity_ch" value="1" max="{{ trip.remaining_places_child }}" min="1">
   <button class="btn btn-primary" id="submitBtn">Purchase</button>
 </div>
 {% endblock content %}

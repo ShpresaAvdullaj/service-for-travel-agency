@@ -125,19 +125,7 @@ urlpatterns = [
         views.HotelUpdateView.as_view(),
         name="hotel-edit",
     ),
-    path(
-        "administrator/purchases/",
-        views.get_list_of_trips_to_purchase,
-        name="list-of-trips-to-purchase",
-    ),
-    path(
-        "administrator/purchases/<int:pk>/", views.purchase_trip, name="purchase-form"
-    ),
-    path(
-        "administrator/purchases/all/",
-        views.get_list_of_purchases,
-        name="list-of-purchases",
-    ),
+
     path("administrator/trips/<int:trip_id>/", views.purchase_trips, name="purchase-trip"),
 ]
 
