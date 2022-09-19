@@ -5,8 +5,7 @@ fetch(PAYMENTS_KEY_URL)
     const stripe = Stripe(data.publicKey);
 
     document.querySelector("#submitBtn").addEventListener("click", () => {
-      const quantityElem = document.querySelector('input[name=quantity]');
-      const quantity = parseInt(quantityElem.value, 10);
+      const quantity = 1;
 
       // Get Checkout Session ID
       fetch(`${PAYMENTS_CHECKOUT_SESSION_URL}?quantity=${quantity}`)

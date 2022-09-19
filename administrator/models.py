@@ -145,22 +145,29 @@ class Trip(models.Model):
     @property
     def remaining_places_adults(self):
         reserved_for_adults = self.purchases.aggregate(Sum("quantity_a"))
-        return self.number_of_places_per_adult - reserved_for_adults.get("quantity__sum", 0)
+        total = 0 if reserved_for_adults.get("quantity__sum") is None else reserved_for_adults.get("quantity__sum")
+        return self.number_of_places_per_adult - total
 
     @property
     def remaining_places_child(self):
         reserved_for_child = self.purchases.aggregate(Sum("quantity_ch"))
-        return self.number_of_places_per_child - reserved_for_child.get("quantity__sum", 0)
+        total = 0 if reserved_for_child.get("quantity__sum") is None else reserved_for_child.get("quantity__sum")
+        return self.number_of_places_per_child - total
 
 
 class PurchaseOfATrip(models.Model):
     trip = models.ForeignKey(Trip, related_name="purchases", verbose_name=("trip"), on_delete=models.CASCADE)
     quantity_a = models.IntegerField(default=1)
-    quantity_ch = models.IntegerField(default=1)
+    quantity_ch = models.IntegerField(default=0)
     purchased_on = models.DateTimeField()
 
     class Meta:
         db_table = "purchases"
 
     def __str__(self):
-        return f"Your trip{self.quantity_a}{self.quantity_ch}"
+        return f"Your trip{self.trip}{self.purchased_on}"
+
+
+
+
+

@@ -297,50 +297,6 @@ class TripUpdateView(UpdateView):
     template_name = "administrator/trips/trip_add.html"
 
 
-# CRUD FOR PURCHASE OF A TRIP
-
-
-def get_list_of_trips_to_purchase(request):
-    trips = Trip.objects.all()
-    return render(
-        request,
-        "administrator/purchases/list_of_trips_to_purchase.html",
-        context={
-            "trips": trips,
-        },
-    )
-
-
-def purchase_trip(request, pk):
-    trip = get_object_or_404(Trip, pk=pk)
-    if request.method == "POST":
-        form = PurchaseOfATripForm(request.POST)
-        if form.is_valid():
-            form.save(commit=False)
-            return redirect("trip-detail", pk=trip.pk)
-    else:
-        form = PurchaseOfATripForm()
-    return render(
-        request,
-        "administrator/purchases/purchase_form.html",
-        context={
-            "form": form,
-            "trip": trip,
-        },
-    )
-
-
-def get_list_of_purchases(request):
-    purchases = PurchaseOfATrip.objects.all()
-    return render(
-        request,
-        "administrator/purchases/list_of_purchases.html",
-        context={
-            "purchases": purchases,
-        },
-    )
-
-
 @csrf_exempt
 # @login_required
 def purchase_trips(request, trip_id):
@@ -373,8 +329,8 @@ def purchase_trips(request, trip_id):
                         "price_data": {
                             "currency": "eur",
                             "unit_amount": trip.price_for_adult
-                            * trip.number_of_places_per_adult
-                            + trip.price_for_child * trip.number_of_places_per_child,
+                            * trip.number_of_places_per_adult * 100
+                            + trip.price_for_child * trip.number_of_places_per_child * 100,
                             "product_data": {
                                 "name": trip.city_to_where,
                                 "description": trip.hotel_to_where,
