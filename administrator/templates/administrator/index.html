@@ -1,0 +1,11 @@
+{% extends 'administrator/index_location.html' %} {% block content %}
+<section class="navbar-nav ms-auto mb-2 mb-md-0">
+    {% if user.is_authenticate %}
+    <div class="nav-item">
+      <p style="color:rgb(61, 204, 87);"> Hello {{ user.username }}. You are the administrator of Kalemi Travel Agency </p>
+</div>
+    {% else %}
+    <p style="color: red;">You are not allowded on this page. We don't recognize you!!</p>
+    {% endif %}
+</section>
+{% endblock content %}

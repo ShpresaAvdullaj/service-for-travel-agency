@@ -156,7 +156,7 @@ class Trip(models.Model):
 
 
 class PurchaseOfATrip(models.Model):
-    trip = models.ForeignKey(Trip, related_name="purchases", verbose_name=("trip"), on_delete=models.CASCADE)
+    trip = models.ForeignKey(Trip, related_name="purchases", verbose_name=("trip"), on_delete=models.CASCADE, default=0)
     quantity_a = models.IntegerField(default=1)
     quantity_ch = models.IntegerField(default=0)
     purchased_on = models.DateTimeField()
