@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 from django.conf import settings
 import stripe
 from django.http import JsonResponse
@@ -14,7 +15,6 @@ from administrator.forms import (
     ContinentForm,
     CountryForm,
     HotelForm,
-    PurchaseOfATripForm,
     TripModelForm,
 )
 from .models import Airport, City, Continent, Country, Hotel, PurchaseOfATrip, Trip
@@ -29,8 +29,8 @@ from django.views.generic import (
 
 
 # BASE TEMPLATE OF ADMINISTRATOR FIELD
-def index(request):
-    return render(request, "administrator/index_location.html")
+def administrator(request):
+    return render(request, "administrator/index.html")
 
 
 # CRUD FOR CONTINENT/LOCATION
@@ -298,16 +298,16 @@ class TripUpdateView(UpdateView):
 
 
 @csrf_exempt
-# @login_required
+@login_required
 def purchase_trips(request, trip_id):
     trip = get_object_or_404(Trip, pk=trip_id)
     quantity = int(request.GET.get("quantity", "1"))
     if (
-        quantity > trip.remaining_places_adults
-        or quantity > trip.remaining_places_child
+        quantity
+        > trip.remaining_places_adults  # per aq kohe sa ka ende vende per nje te rritur
     ):
         print("canot buy")
-        return JsonResponse({"error": "Not that many seats available"}, status=400)
+        return JsonResponse({"error": "No more trips available"}, status=400)
 
     if request.method == "GET":
         domain_url = "http://localhost:8000/"
@@ -329,8 +329,11 @@ def purchase_trips(request, trip_id):
                         "price_data": {
                             "currency": "eur",
                             "unit_amount": trip.price_for_adult
-                            * trip.number_of_places_per_adult * 100
-                            + trip.price_for_child * trip.number_of_places_per_child * 100,
+                            * trip.purchase.quantity_a
+                            * 100
+                            + trip.price_for_child
+                            * trip.purchase.quantity_ch
+                            * 100,
                             "product_data": {
                                 "name": trip.city_to_where,
                                 "description": trip.hotel_to_where,

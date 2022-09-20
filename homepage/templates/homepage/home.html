@@ -8,30 +8,41 @@
     }
 </style>
 <div class="home-container">
-    <div><hr>
-        <h3>Browse Trips</h3>
+    <div>
     </hr>
     {% if trips %} 
-    <div>
+    <div class="alert alert-primary"><i class="fas fa-globe fa-fw me-3"></i>Browse Trips </div>
+    <div class="alert alert-info">
         <a href="{% url 'home' %}?q={{trip.pk}}">All</a>
      </div>
-     <div>
+     <div class="alert alert-info">
         <a href="{% url 'home' %}?q={{trip.city_to_where.country.continent.name}}">Continents</a>
      </div>
-     <div>
+     <div class="alert alert-info">
         <a href="{% url 'home' %}?q={{trip.city_to_where.country.name}}">Countries</a>
      </div>
-     <div>
+     <div class="alert alert-info">
         <a href="{% url 'home' %}?q={{city.name}}">Cities</a>
      </div>
      {% endif %}
     </div>
 
 <aside>
-    {% for trip in trips %}
-    <div><a href="{% url 'trip-detail' pk=trip.pk %}" style="text-decoration: none;">{{trip.city_from_where.name}}-{{trip.city_to_where.name}}</a>
-    Jorney lasts for {{trip.number_of_days}} from {{ trip.date_of_departure}} to {{ trip.date_of_return }}
-    {% endfor %}</div>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for trip in trips %}
+        <div v-for="trip in trips" class="col" >
+            <a href="{% url 'trip-detail' pk=trip.pk %}" style="text-decoration: none;">{{trip.city_from_where.name}}-{{trip.city_to_where.name}}</a>
+                <div class="card" >
+                    <p>{{ trip.city_from_where }} - {{ trip.city_to_where }} - {{ trip.airport_to_where }}{{ trip.airport_from_where}}</p>
+                    {% if trip.hotel_to_where.photo %}
+                    <img class="card-img-top" src="{{ trip.hotel_to_where.photo.url }}" alt="Profile picture here ...">
+                    {% else %}
+                    <div class="alert alert-warning" role="alert">No photo for this hotel</div>
+                    {% endif %}
+                </div>
+        </div>
+        {% endfor %}
+        </div>
 </aside>
 </div>
 {% endblock content %}
