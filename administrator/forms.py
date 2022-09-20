@@ -90,7 +90,6 @@ class TripForm(forms.Form):
     )
     date_of_departure = forms.DateField()
     date_of_return = forms.DateField()
-    number_of_days = forms.IntegerField()
     type = forms.ChoiceField(required=True, choices=TYPES)
     price_for_adult = forms.IntegerField()
     price_for_child = forms.IntegerField()
@@ -110,7 +109,6 @@ class TripModelForm(forms.ModelForm):
             "hotel_to_where",
             "date_of_departure",
             "date_of_return",
-            "number_of_days",
             "price_for_adult",
             "price_for_child",
             "number_of_places_per_adult",

@@ -18,20 +18,29 @@
     <a class="btn btn-primary" href="{% url 'add-trip' %}">Add Trip</a>
 </div>
 <section>
-<div class="row row-cols-1 row-cols-md-3 g-4">
-{% for trip in trips %}
-<div v-for="trip in trips" class="col" >
-    <a href="{% url 'trip-detail' pk=trip.pk %}" style="text-decoration: none;">{{trip.city_from_where.name}}-{{trip.city_to_where.name}}</a>
-        <div class="card" >
-            <p>{{ trip.city_from_where }} - {{ trip.city_to_where }} - {{ trip.airport_to_where }}{{ trip.airport_from_where}}</p>
-            {% if trip.hotel_to_where.photo %}
-            <img class="card-img-top" src="{{ trip.hotel_to_where.photo.url }}" alt="Profile picture here ...">
-            {% else %}
-            <div class="alert alert-warning" role="alert">No photo for this hotel</div>
-            {% endif %}
-        </div>
-</div>
-{% endfor %}
-</div>
+    <div style="display: flex; flex-direction:row; flex-wrap: wrap">
+        {% for trip in trips %}
+            <div class="card mb-2" style="max-width: 510px; max-height: 380px;">
+            <div class="row g-0">
+              <div class="col-md-4">
+                {% if trip.hotel_to_where.photo %}
+                <img class="card-img-top" height="100%" src="{{ trip.hotel_to_where.photo.url }}" alt="Profile picture here ...">
+                {% else %}
+                <div class="alert alert-warning" role="alert">No photo for this hotel</div>
+                {% endif %}
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h6 class="card-title">
+                    <a href="{% url 'trip-detail' pk=trip.pk %}" style="text-decoration: none;">{{trip.city_from_where.name}}-{{trip.city_to_where.name}}</a>
+                        <p>{{ trip.city_from_where }} - {{ trip.city_to_where }} - {{ trip.airport_to_where }}{{ trip.airport_from_where}}</p>
+                    Jorney lasts {{ trip.number_of_days }} from {{ trip.date_of_departure}} to
+                    {{ trip.date_of_return }}
+                  </h5></p>
+              </div>
+            </div>
+            </div>
+        {% endfor %}
+    </div>
 </section>
 {% endblock content %}
