@@ -80,14 +80,12 @@
 
             </ul>
             <ul class="navbar-nav ms-auto mb-2 mb-md-0">
-            <li class="nav-item">
-              <form class="d-flex" role="search" method="GET" action="{% url 'home' %}">
-                <input class="btn btn-light" id="search-input" type="search" name="q" placeholder="Search Trips..."  />
-                <button id="search-button" type="button" class="btn btn-secondary btn-sm btn-block">
-                  {% bs_icon 'search' size='1.0em' %}
-                </button>
-              </form>
-            </li>
+              <li class="nav-item">
+                <form class="d-flex" role="search" method="get" action="{% url 'home' %}">
+                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q" {% if search_query %} value={{ search_query }}{% endif %}>
+                  <button class="btn btn-secondary" type="submit"><i class="fas fa-search"></i></button>
+                </form>
+              </li>
           </ul>
           <ul class="navbar-nav ms-auto mb-2 mb-md-0">
             {% if user.is_authenticated %}

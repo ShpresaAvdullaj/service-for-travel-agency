@@ -123,9 +123,8 @@ class Trip(models.Model):
         on_delete=models.CASCADE,
         related_name="hotel to where +",
     )
-    date_of_departure = models.DateField(null=True)
-    date_of_return = models.DateField(null=True)
-    number_of_days = models.IntegerField()
+    date_of_departure = models.DateTimeField(null=True)
+    date_of_return = models.DateTimeField(null=True)
     price_for_adult = models.IntegerField(default=20)
     price_for_child = models.IntegerField(default=15)
     number_of_places_per_adult = models.IntegerField(default=0)
@@ -135,6 +134,10 @@ class Trip(models.Model):
 
     class Meta:
         db_table = "trips"
+
+    @property
+    def number_of_days(self):
+        return self.date_of_return.date() - self.date_of_departure.date()
 
     def __str__(self):
         return f"{self.city_to_where}-{self.date_of_departure}-{self.date_of_return}-{self.type}"

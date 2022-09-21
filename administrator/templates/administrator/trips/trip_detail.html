@@ -1,24 +1,58 @@
-{% extends 'administrator/index_location.html' %}{% load static %} {% block content %} <br /><br /><br /><br />
-<div class="d-flex justify-content-between align-items-center">
-  <h2>{{ trip.city_from_where }} to {{ trip.city_to_where}}</h2>
-  <div>
-    <a href="{% url 'trip-edit' pk=trip.pk %}" class="btn btn-warning">Edit</a>
-    <a href="{% url 'delete-trip' pk=trip.pk %}" class="btn btn-danger">Delete</a>
+{% extends 'administrator/index_location.html' %}{% load static %} {% block content %}<br /><br /><br />
+<div class="d-flex justify-content-end">
+<a href="{% url 'trip-edit' pk=trip.pk %}" class="btn btn-warning">Edit</a>
+<a href="{% url 'delete-trip' pk=trip.pk %}" class="btn btn-danger">Delete</a>
+</div>
+<div class="d-flex flex-wrap justify-content-around">
+    <div class="card mb-3" style="max-width: 840px;">
+    <div class="row g-0">
+      <div class="col-md-4">
+        {% if trip.hotel_to_where.photo %}
+        <img class="card-img-top" height="100%" src="{{ trip.hotel_to_where.photo.url }}" alt="Profile picture here ...">
+        {% else %}
+        <div class="alert alert-warning" role="alert">No photo for this hotel</div>
+        {% endif %}
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{ trip.city_from_where.name }} to {{ trip.city_to_where.name}}</h5>
+          <p class="card-text"><h3>{{trip.airport_from_where}} to {{trip.airport_to_where}}</h3></p>
+          <p class="card-text"><h3>
+            Jorney lasts {{ trip.number_of_days }} from {{ trip.date_of_departure}} to
+            {{ trip.date_of_return }}
+          </h3></p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-<h3>{{trip.airport_from_where}} to {{trip.airport_to_where}}</h3>
-<h3>
-  Jorney lasts for {{trip.number_of_days}} from {{ trip.date_of_departure}} to
-  {{ trip.date_of_return }}
-</h3>
-<hr />
 <div>
-Revenue from this trip: {{ revenue }}
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th scope="col">Revenue from this trip</th>
+      <th scope="col">Seats adult</th>
+      <th scope="col">Price for adult</th>
+      <th scope="col">Seats Chlidren</th>
+      <th scope="col">Price Children</th>
+      <th scope="col">Still Available Adult</th>
+      <th scope="col">Still Available Child</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">{{ revenue }}</th>
+      <td>{{ trip.number_of_places_per_adult }}</td>
+      <td>{{ trip.price_for_adult }}</td>
+      <td>{{ trip.number_of_places_per_child }}</td>
+      <td>{{ trip.price_for_child }}</td>
+      <td>{{ trip.remaining_places_adults }}</td>
+      <td>{{ trip.remaining_places_child }}</td>
+    </tr>
+  </tbody>
+</table>
 </div>
-<div>
-  <p>Seats adult: <b>{{ trip.number_of_places_per_adult }}</b><b>Price for adult:{{ trip.price_for_adult }}</b> Still Available: <b>{{ trip.remaining_places_adults }}</b></p>
-  <p>Seats children: <b>{{ trip.number_of_places_per_child }}</b> <b>Price for child:{{ trip.price_for_child }}</b> Still Available: <b>{{ trip.remaining_places_child }}</b></p>
-</div>
+<section>
 {% if user.is_authenticated %}
 <div class="d-flex justify-content-center align-items-center">
   <input class="form-control" type="number" name="quantity_a" value="1" max="{{ trip.remaining_places_adults }}" min="1">
@@ -27,8 +61,11 @@ Revenue from this trip: {{ revenue }}
 </div>
 {% else %}
 <hr><hr>
-<div class="here" style="text-align:center;"><p>Please login<a href="{% url 'login' %}"> here</a> to reserve a trip!!</p></div>
+<div class="btn btn-warning" style="text-align:center; width: 100%;">
+<p>Please login<a href="{% url 'login' %}"> here</a> to reserve a trip!!</p>
+</div>
 {% endif %}
+</section>
 {% endblock content %}
 {% block scripts %}
 {{ block.super }}

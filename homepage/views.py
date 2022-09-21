@@ -18,6 +18,8 @@ def home(request):
     trips = Trip.objects.filter(
         Q(city_to_where__country__continent__name__icontains=q)
         | Q(city_to_where__country__name__icontains=q)
+        | Q(date_of_departure__icontains=q)
+        | Q(type__icontains=q)
     )
 
     continents = Continent.objects.all()
