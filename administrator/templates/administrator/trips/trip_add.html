@@ -5,8 +5,6 @@
 <h1>Add Trip</h1>
 {% endif %}
 <form action="" method="post" novalidate enctype="multipart/form-data">
-  {% csrf_token %}
-  <form action="" method="post" novalidate>
     {% csrf_token %}
     {{ form|crispy}}
     <div class="text-center">
