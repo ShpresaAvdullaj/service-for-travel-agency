@@ -171,6 +171,6 @@ class PurchaseOfATrip(models.Model):
         return f"Your trip{self.trip}{self.purchased_on}"
 
 
-
-
-
+class FilterDate(models.Model):
+    first_date = models.DateTimeField()
+    second_date = models.DateTimeField()

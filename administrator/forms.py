@@ -1,5 +1,20 @@
 from django import forms
-from .models import City, Continent, Country, Hotel, Trip, PurchaseOfATrip, Airport
+from .models import (
+    City,
+    Continent,
+    Country,
+    Hotel,
+    Trip,
+    PurchaseOfATrip,
+    Airport,
+    FilterDate,
+)
+
+
+class FilterDateForm(forms.ModelForm):
+    class Meta:
+        model = FilterDate
+        fields = "__all__"
 
 
 class ContinentForm(forms.ModelForm):
