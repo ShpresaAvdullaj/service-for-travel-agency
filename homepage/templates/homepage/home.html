@@ -6,6 +6,14 @@
         display: grid;
         grid-template-columns: 1fr 3fr ;
     }
+    
+  @media screen and (max-width: 600px) {
+  .home-container .trips-content .footer{
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+  }
+}
 </style>
 <div class="home-container">
     <div>
@@ -20,8 +28,12 @@
       <form action="" method="post" novalidate>
         {% csrf_token %}
         {{ form }}
-      <div>From<input type="date" value="first_date"></div>
-      <div>To<input type="date" value="second_date"></div></form>
+      <div><input type="date" value={{interval.first_date}}></div>
+      <div><input type="date" value={{interval.second_date}}></div>
+      <div class="text-center">
+        <button class="btn btn-primary" type="submit">Go</button>
+    </div>
+    </form>
      </div>
      <div class="alert alert-info">
      <div class="dropdown">
@@ -40,7 +52,7 @@
      {% endif %}
     </div>
 
-<aside>
+<aside class="trips-content">
     <div style="display: flex; flex-direction:row; flex-wrap: wrap">
         {% for trip in trips %}
             <div class="card mb-2 mt-5" style="max-width: 410px; max-height: 180px;">
@@ -56,8 +68,8 @@
                 <div class="card-body">
                   <h6 class="card-title">{{ trip.city_from_where.name }} to {{ trip.city_to_where.name}}</h6>
                   <p class="card-text"><h5>
-                    Jorney lasts {{ trip.number_of_days }} from {{ trip.date_of_departure}} to
-                    {{ trip.date_of_return }}
+                    Jorney lasts {{ trip.number_of_days }} from {{ trip.date_departure}} to
+                    {{ trip.date_return }}
                   </h5></p>
                 </div>
               </div>

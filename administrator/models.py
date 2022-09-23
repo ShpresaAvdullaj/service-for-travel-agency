@@ -146,6 +146,14 @@ class Trip(models.Model):
         return reverse("trip-detail", kwargs={"pk": self.pk})
 
     @property
+    def date_departure(self):
+        return self.date_of_departure.date()
+
+    @property
+    def date_return(self):
+        return self.date_of_return.date()
+
+    @property
     def remaining_places_adults(self):
         reserved_for_adults = self.purchases.aggregate(Sum("quantity_a"))
         total = 0 if reserved_for_adults.get("quantity__sum") is None else reserved_for_adults.get("quantity__sum")
@@ -174,3 +182,11 @@ class PurchaseOfATrip(models.Model):
 class FilterDate(models.Model):
     first_date = models.DateTimeField()
     second_date = models.DateTimeField()
+
+    @property
+    def date_first(self):
+        return self.first_date.date()
+
+    @property
+    def date_second(self):
+        return self.second_date.date()

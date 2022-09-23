@@ -7,14 +7,7 @@ from .models import (
     Trip,
     PurchaseOfATrip,
     Airport,
-    FilterDate,
 )
-
-
-class FilterDateForm(forms.ModelForm):
-    class Meta:
-        model = FilterDate
-        fields = "__all__"
 
 
 class ContinentForm(forms.ModelForm):

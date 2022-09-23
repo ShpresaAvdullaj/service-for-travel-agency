@@ -1,11 +1,16 @@
-{% extends 'administrator/index_location.html' %} {% block content %}
-<section class="navbar-nav ms-auto mb-2 mb-md-0">
-    {% if user.is_authenticate %}
-    <div class="nav-item">
-      <p style="color:rgb(61, 204, 87);"> Hello {{ user.username }}. You are the administrator of Kalemi Travel Agency </p>
+{% extends 'administrator/index_location.html' %} {{ block.super }} {% block content %}
+<hr><br><br><br>
+<div class="container">
+    {% if user.is_authenticated %}
+    <div class="btn btn-info">
+      <p style="color:white; font-size:24px"> Hello {{ user.username }}. You are the administrator of Kalemi Travel Agency 
+        <i class="far fa-laugh-beam"></i></p>
 </div>
     {% else %}
-    <p style="color: red;">You are not allowded on this page. We don't recognize you!!</p>
+    <div class="btn btn-danger">
+    <p style="color: white; font-size:24px">You are not allowded on this page. We don't recognize you!! <i class="far fa-meh"></i></p>
+
+</div>
     {% endif %}
-</section>
+</div>
 {% endblock content %}
