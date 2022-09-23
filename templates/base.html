@@ -87,7 +87,7 @@
             <ul class="navbar-nav ms-auto mb-2 mb-md-0">
               <li class="nav-item">
                 <form class="d-flex" role="search" method="get" action="{% url 'home' %}">
-                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q" {% if search_query %} value={{ search_query }}{% endif %}>
+                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q" {% if search_query %} value="{{ search_query }}" {% endif %}>
                   <button class="btn btn-secondary" type="submit"><i class="fas fa-search"></i></button>
                 </form>
               </li>

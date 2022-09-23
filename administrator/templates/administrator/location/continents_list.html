@@ -13,6 +13,7 @@
 
     {% block content %}
     <br><br><br>
+    {% if perms.app_label.addcontinent %}
     <div class="header-title">
         <h1>List of continents</h1>
         <a class="btn btn-primary" href="{% url 'continent-add' %}">Add Continent</a>
@@ -28,7 +29,7 @@
     <div>
     {% endfor %}
     </section>
-
+   {% endif %}
     <hr><hr>
     {% endblock content%}
 

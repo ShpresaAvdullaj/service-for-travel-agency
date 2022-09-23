@@ -1,8 +1,10 @@
 {% extends 'administrator/index_location.html' %}{% load static %} {% block content %}<br /><br /><br />
+{% if perms.app_label.deletetrip %}
 <div class="d-flex justify-content-end">
 <a href="{% url 'trip-edit' pk=trip.pk %}" class="btn btn-warning">Edit</a>
 <a href="{% url 'delete-trip' pk=trip.pk %}" class="btn btn-danger">Delete</a>
 </div>
+{% endif %}
 <div class="d-flex flex-wrap justify-content-around">
     <div class="card mb-3" style="max-width: 840px;">
     <div class="row g-0">

@@ -12,6 +12,7 @@
     {% endblock styles %}
     {% block content %}
     <br><br><br>
+    {% if perms.app_label.addcountry %}
 <div class="header-title">
     <h1>List of countries</h1>
     <a class="btn btn-primary" href="{% url 'country-add' %}">Add Country</a>
@@ -27,4 +28,5 @@
 <div>
 {% endfor %}
 </section>
+{% endif %}
 {% endblock content %}
