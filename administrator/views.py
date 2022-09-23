@@ -17,7 +17,7 @@ from administrator.forms import (
     HotelForm,
     TripModelForm,
 )
-from .models import Airport, City, Continent, Country, Hotel, PurchaseOfATrip, Trip
+from .models import Airport, City, Continent, Country, Hotel, Trip
 
 from django.views.generic import (
     CreateView,
