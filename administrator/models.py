@@ -2,17 +2,13 @@ from django.db import models
 from django.urls import reverse
 from django.db.models import Sum
 
-from star_ratings.models import Rating
-from django.contrib.contenttypes.fields import GenericRelation
-
 
 class Continent(models.Model):
     name = models.CharField(max_length=50)
 
     class Meta:
         db_table = "continents"
-        permissions = [
-            ("addcontinent", " Add Continent")]
+        permissions = [("addcontinent", " Add Continent")]
 
     def __str__(self):
         return f"{self.name}"
@@ -29,8 +25,7 @@ class Country(models.Model):
 
     class Meta:
         db_table = "countries"
-        permissions = [
-            ("addcountry", " Add Country")]
+        permissions = [("addcountry", " Add Country")]
 
     def __str__(self):
         return f"{self.name}-{self.continent}"
@@ -47,8 +42,7 @@ class City(models.Model):
 
     class Meta:
         db_table = "cities"
-        permissions = [
-            ("addcity", " Add City")]
+        permissions = [("addcity", " Add City")]
 
     def __str__(self):
         return f"{self.name}-{self.country}"
@@ -66,14 +60,11 @@ class Hotel(models.Model):
 
     class Meta:
         db_table = "hotels"
-        permissions = [
-            ("addhotel", " Add Hotel")]
+        permissions = [("addhotel", " Add Hotel")]
 
     def __str__(self):
 
-        return (
-            f"{self.name}-{self.standart}-{self.photo}-{self.city}"
-        )
+        return f"{self.name}-{self.standart}-{self.photo}-{self.city}"
 
     def get_absolute_url(self):
         return reverse("hotel-detail", kwargs={"pk": self.pk})
@@ -85,8 +76,7 @@ class Airport(models.Model):
 
     class Meta:
         db_table = "airports"
-        permissions = [
-            ("addairport", " Add Airport")]
+        permissions = [("addairport", " Add Airport")]
 
     def __str__(self):
         return f"{self.name}-{self.city}"
@@ -144,10 +134,7 @@ class Trip(models.Model):
 
     class Meta:
         db_table = "trips"
-        permissions = [
-            ("addtrip", " Add Trip"),
-            ("deletetrip", "Delete Trip")
-        ]
+        permissions = [("addtrip", " Add Trip"), ("deletetrip", "Delete Trip")]
 
     @property
     def number_of_days(self):
@@ -170,18 +157,32 @@ class Trip(models.Model):
     @property
     def remaining_places_adults(self):
         reserved_for_adults = self.purchases.aggregate(Sum("quantity_a"))
-        total = 0 if reserved_for_adults.get("quantity__sum") is None else reserved_for_adults.get("quantity__sum")
+        total = (
+            0
+            if reserved_for_adults.get("quantity__sum") is None
+            else reserved_for_adults.get("quantity__sum")
+        )
         return self.number_of_places_per_adult - total
 
     @property
     def remaining_places_child(self):
         reserved_for_child = self.purchases.aggregate(Sum("quantity_ch"))
-        total = 0 if reserved_for_child.get("quantity__sum") is None else reserved_for_child.get("quantity__sum")
+        total = (
+            0
+            if reserved_for_child.get("quantity__sum") is None
+            else reserved_for_child.get("quantity__sum")
+        )
         return self.number_of_places_per_child - total
 
 
 class PurchaseOfATrip(models.Model):
-    trip = models.ForeignKey(Trip, related_name="purchases", verbose_name=("trip"), on_delete=models.CASCADE, default=0)
+    trip = models.ForeignKey(
+        Trip,
+        related_name="purchases",
+        verbose_name=("trip"),
+        on_delete=models.CASCADE,
+        default=0,
+    )
     quantity_a = models.IntegerField(default=1)
     quantity_ch = models.IntegerField(default=0)
     purchased_on = models.DateTimeField()
@@ -191,4 +192,3 @@ class PurchaseOfATrip(models.Model):
 
     def __str__(self):
         return f"Your trip{self.trip}{self.purchased_on}"
-

@@ -19,28 +19,34 @@
 </div>
 <section>
     <div style="display: flex; flex-direction:row; flex-wrap: wrap">
-        {% for trip in trips %}
-            <div class="card mb-2" style="max-width: 510px; max-height: 380px;">
-            <div class="row g-0">
-              <div class="col-md-4">
-                {% if trip.hotel_to_where.photo %}
-                <img class="card-img-top" height="100%" src="{{ trip.hotel_to_where.photo.url }}" alt="Profile picture here ...">
-                {% else %}
-                <div class="alert alert-warning" role="alert">No photo for this hotel</div>
-                {% endif %}
+      {% if trips %} 
+      <div style="display: flex; flex-direction:row; flex-wrap: wrap">
+          {% for trip in trips %}
+              <div class="card mb-2 mt-5" style="max-width: 410px; max-height: 180px;">
+              <div class="row g-0">
+                <div class="col-md-4">
+                  {% if trip.hotel_to_where.photo %}
+                  <img class="card-img-top" height="100%" src="{{ trip.hotel_to_where.photo.url }}" alt="Profile picture here ...">
+                  {% else %}
+                  <div class="alert alert-warning" role="alert">No photo for this hotel</div>
+                  {% endif %}
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h6 class="card-title">{{ trip.city_from_where.name }} to {{ trip.city_to_where.name}}</h6>
+                    <p class="card-text"><h5>
+                      Journey lasts {{ trip.number_of_days }} from {{ trip.date_departure}} to
+                      {{ trip.date_return }}
+                    </h5></p>
+                  </div>
+                </div>
+                <div class="btn btn-info"><a href="{% url 'trip-detail' pk=trip.pk %}" style="text-decoration: none;">Details</a></div>
               </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <h6 class="card-title">
-                    <a href="{% url 'trip-detail' pk=trip.pk %}" style="text-decoration: none;">{{trip.city_from_where.name}}-{{trip.city_to_where.name}}</a>
-                        <p>{{ trip.city_from_where }} - {{ trip.city_to_where }} - {{ trip.airport_to_where }}{{ trip.airport_from_where}}</p>
-                    Jorney lasts {{ trip.number_of_days }} from {{ trip.date_of_departure}} to
-                    {{ trip.date_of_return }}
-                  </h5></p>
               </div>
-            </div>
-            </div>
-        {% endfor %}
+          {% endfor %}
+      </div>
+    </div>
+    {% endif %}
     </div>
 </section>
 {% endif %}

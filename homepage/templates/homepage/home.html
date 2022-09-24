@@ -14,11 +14,29 @@
     margin-bottom: 20px;
   }
 }
+
+body { height: 100%;
+}
+.parent {
+height: 430px;
+background: #c1e9f0;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+.child {
+background-color: #a0a088;
+float: left;
+width: 250px;
+height: 50px;
+border-radius: 15px;
+text-align: center;
+}
+
 </style>
 <div class="home-container">
     <div>
-    </hr>
-    {% if trips %} 
+    </hr> 
     <div class="alert alert-primary"><i class="fas fa-globe fa-fw me-3"></i>Browse Trips </div>
     <div class="alert alert-info">
         <a href="{% url 'home' %}" style="text-decoration: none;">All Trips</a>
@@ -42,9 +60,8 @@
      <div class="alert alert-info">
         <a href="{% url 'home' %}?q={{city.name}}">Cities</a>
      </div>
-     {% endif %}
     </div>
-
+{% if trips %}
 <aside class="trips-content">
     <div style="display: flex; flex-direction:row; flex-wrap: wrap">
         {% for trip in trips %}
@@ -72,6 +89,12 @@
         {% endfor %}
     </div>
 </aside>
+{% else %}
+<aside class="parent">
+  <div class="child">UPSS!!! NO RESULTS FOUND!!</div><br>
+  <div> <h4>We are Sorry!! Your search returned zero results.</h4</div>
+  </aside>
+{% endif %}
 </div>
 <br><br><br>
 {% endblock content %}
