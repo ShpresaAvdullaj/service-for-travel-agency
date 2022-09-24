@@ -1,11 +1,12 @@
 from django.shortcuts import render
-from administrator.models import Country, Trip, Continent, City, FilterDate
+from administrator.models import Country, Trip, Continent, City
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.conf import settings
-from .forms import FilterDateForm
-from django.shortcuts import redirect
+from django.utils.dateparse import parse_date
+
+
 
 @csrf_exempt
 def get_stripe_pubkey(request):
@@ -72,30 +73,23 @@ def type_bed_breakfast(request):
     return render(request, "homepage/home.html", context)
 
 
-def add_interval_time(request):
-    if request.method == "POST":
-        form = FilterDateForm(request.POST, request.FILES)
-        if form.is_valid():
-            interval = form.save()
-            return redirect("interval-time")
-    else:
-        form = FilterDateForm()
-    return render(
-        request, "home.html", context={"interval": interval}
-    )
-
-
+# Nope. Django filters operate at the database level, generating SQL. To filter based on Python
+# properties, you have to load the object into Python to evaluate the property
+# cant use properties in queryset filter django
 def interval_time(request):
-    filter_date = FilterDate()
-    trip = Trip.objects.all()
+    q = (request.GET.get("q") if request.GET.get("q") is not None else "")
+    q1 = (request.GET.get("q1") if request.GET.get("q1") is not None else "")
+    trips_objects = Trip.objects.all()
     trips = [
         trip
-        for tr in trip
-        if filter_date.date_first
-        < tr.date_departure and tr.date_return
-        < filter_date.date_second
+        for trip in trips_objects
+        if trip.date_departure > parse_date(q)
+        and trip.date_return < parse_date(q1)
     ]
+
     context = {
         "trips": trips,
     }
     return render(request, "homepage/home.html", context)
+
+#and trip.date_return < parse_date(q1)

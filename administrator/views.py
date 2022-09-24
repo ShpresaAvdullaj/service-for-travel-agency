@@ -2,10 +2,11 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.conf import settings
 import stripe
 from django.http import JsonResponse
+from datetime import date
 
 # from django.contrib.auth.decorators import login_required, permission_required
 
@@ -243,6 +244,7 @@ class HotelDetailView(DetailView):
 
 
 # CRUD FOR TRIPS
+@permission_required("trips.addtrip")
 def add_trip(request):
     if request.method == "POST":
         form = TripModelForm(request.POST, request.FILES)
@@ -254,6 +256,7 @@ def add_trip(request):
     return render(request, "administrator/trips/trip_add.html", context={"form": form})
 
 
+@permission_required("trips.deletetrip")
 def delete_trip(request, pk):
     trip = get_object_or_404(Trip, pk=pk)
     if request.method == "POST":
@@ -267,12 +270,15 @@ def delete_trip(request, pk):
 def get_trip_detail(request, pk):
     trip = get_object_or_404(Trip, pk=pk)
     purchases = trip.purchases.all()
-
     revenue = sum(
         trip.price_for_adult * purchase.quantity_a
         + trip.price_for_child * purchase.quantity_ch
         for purchase in purchases
     )
+    """    if trip.date_departure < date.today():
+        trip.delete()
+        return redirect("trips-list") 
+        delete a trip from available trips""" 
     return render(
         request,
         "administrator/trips/trip_detail.html",

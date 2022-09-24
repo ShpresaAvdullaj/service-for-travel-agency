@@ -1,7 +1,7 @@
 {% extends 'administrator/index_location.html' %} {{ block.super }} {% block content %}
 <hr><br><br><br>
 <div class="container">
-    {% if user.is_authenticated %}
+    {% if perms.app_label.addtrip %}
     <div class="btn btn-info">
       <p style="color:white; font-size:24px"> Hello {{ user.username }}. You are the administrator of Kalemi Travel Agency 
         <i class="far fa-laugh-beam"></i></p>

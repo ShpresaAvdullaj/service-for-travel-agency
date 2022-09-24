@@ -11,6 +11,8 @@ class Continent(models.Model):
 
     class Meta:
         db_table = "continents"
+        permissions = [
+            ("addcontinent", " Add Continent")]
 
     def __str__(self):
         return f"{self.name}"
@@ -27,6 +29,8 @@ class Country(models.Model):
 
     class Meta:
         db_table = "countries"
+        permissions = [
+            ("addcountry", " Add Country")]
 
     def __str__(self):
         return f"{self.name}-{self.continent}"
@@ -43,6 +47,8 @@ class City(models.Model):
 
     class Meta:
         db_table = "cities"
+        permissions = [
+            ("addcity", " Add City")]
 
     def __str__(self):
         return f"{self.name}-{self.country}"
@@ -60,6 +66,8 @@ class Hotel(models.Model):
 
     class Meta:
         db_table = "hotels"
+        permissions = [
+            ("addhotel", " Add Hotel")]
 
     def __str__(self):
 
@@ -77,6 +85,8 @@ class Airport(models.Model):
 
     class Meta:
         db_table = "airports"
+        permissions = [
+            ("addairport", " Add Airport")]
 
     def __str__(self):
         return f"{self.name}-{self.city}"
@@ -134,6 +144,10 @@ class Trip(models.Model):
 
     class Meta:
         db_table = "trips"
+        permissions = [
+            ("addtrip", " Add Trip"),
+            ("deletetrip", "Delete Trip")
+        ]
 
     @property
     def number_of_days(self):
@@ -178,15 +192,3 @@ class PurchaseOfATrip(models.Model):
     def __str__(self):
         return f"Your trip{self.trip}{self.purchased_on}"
 
-
-class FilterDate(models.Model):
-    first_date = models.DateTimeField()
-    second_date = models.DateTimeField()
-
-    @property
-    def date_first(self):
-        return self.first_date.date()
-
-    @property
-    def date_second(self):
-        return self.second_date.date()
