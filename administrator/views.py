@@ -35,6 +35,7 @@ def administrator(request):
 
 
 # CRUD FOR CONTINENT/LOCATION
+@permission_required("continents.addcontinent")
 def add_continent(request):
     if request.method == "POST":
         form = ContinentForm(request.POST, request.FILES)
@@ -81,6 +82,7 @@ class ContinentUpdateView(UpdateView):
 
 
 # CRUD FOR COUNTRY/LOCATION
+@permission_required("countries.addcountry")
 def add_country(request):
     if request.method == "POST":
         form = CountryForm(request.POST, request.FILES)
@@ -127,6 +129,7 @@ class CountryUpdateView(UpdateView):
 
 
 # CRUD FOR CITY/LOCATION
+@permission_required("cities.addcity")
 def add_city(request):
     if request.method == "POST":
         form = CityForm(request.POST, request.FILES)
@@ -207,6 +210,7 @@ class AirportUpdateView(UpdateView):
 
 
 # CRUD FOR HOTELS
+@permission_required("hotels.addhotel")
 def add_hotel(request):
     if request.method == "POST":
         form = HotelForm(request.POST, request.FILES)
@@ -307,9 +311,11 @@ class TripUpdateView(UpdateView):
 @login_required
 def purchase_trips(request, trip_id):
     trip = get_object_or_404(Trip, pk=trip_id)
-    quantity = int(request.GET.get("quantity", "1"))
+   
+    quantity_a = int(request.GET.get("quantity_a"))
+    quantity_ch = int(request.GET.get("quantity_ch"))
     if (
-        quantity
+        1
         > trip.remaining_places_adults  # per aq kohe sa ka ende vende per nje te rritur
     ):
         print("canot buy")
@@ -321,7 +327,7 @@ def purchase_trips(request, trip_id):
         success_url = (
             domain_url
             + "payments/success?session_id={CHECKOUT_SESSION_ID}"
-            + f"&trip_id={trip.pk}&quantity={quantity}"
+            + f"&trip_id={trip.pk}&quantity_a={quantity_a}&quantity_ch={quantity_ch}"
         )
         try:
             # ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the session ID set as a query param
@@ -335,20 +341,29 @@ def purchase_trips(request, trip_id):
                         "price_data": {
                             "currency": "eur",
                             "unit_amount": trip.price_for_adult
-                            * trip.purchase.quantity_a
+                            * quantity_a
                             * 100
                             + trip.price_for_child
-                            * trip.purchase.quantity_ch
+                            * quantity_ch
                             * 100,
                             "product_data": {
                                 "name": trip.city_to_where,
                                 "description": trip.hotel_to_where,
                             },
                         },
-                        "quantity": quantity,
+                        "quantity": quantity_a,
+                        "quantity": quantity_ch,
                     }
                 ],
             )
             return JsonResponse({"sessionId": checkout_session["id"]})
         except Exception as e:
             return JsonResponse({"error": str(e)})
+
+
+def payment_success(request):
+    return render(request, "administrator/payment_success.html")
+
+
+def payment_cancel(request):
+    return render(request, "administrator/payment_cancelled.html")

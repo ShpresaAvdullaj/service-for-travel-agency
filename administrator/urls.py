@@ -127,7 +127,6 @@ urlpatterns = [
     ),
 
     path("administrator/trips/<int:trip_id>/", views.purchase_trips, name="purchase-trip"),
+    path("payments/success/", views.payment_success, name="prenotate-trip"),
+    path("payments/cancelled/", views.payment_cancel, name="cancel-trip")
 ]
-
-
-#add purchase success and purchase cancelled

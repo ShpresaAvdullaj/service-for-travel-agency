@@ -31,24 +31,22 @@
 <table class="table table-sm">
   <thead>
     <tr>
-      <th scope="col">Revenue from this trip</th>
       <th scope="col">Seats adult</th>
       <th scope="col">Price for adult</th>
-      <th scope="col">Seats Chlidren</th>
+      <th scope="col">Seats Children</th>
       <th scope="col">Price Children</th>
-      <th scope="col">Still Available Adult</th>
-      <th scope="col">Still Available Child</th>
+      <!--<th scope="col">Still Available Adult</th>
+      <th scope="col">Still Available Child</th>-->
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th scope="row">{{ revenue }}</th>
       <td>{{ trip.number_of_places_per_adult }}</td>
-      <td>{{ trip.price_for_adult }}</td>
+      <td>{{ trip.price_for_adult }} $</td>
       <td>{{ trip.number_of_places_per_child }}</td>
-      <td>{{ trip.price_for_child }}</td>
-      <td>{{ trip.remaining_places_adults }}</td>
-      <td>{{ trip.remaining_places_child }}</td>
+      <td>{{ trip.price_for_child }} $</td>
+      <!--<td>{{ trip.remaining_places_adults }}</td>
+      <td>{{ trip.remaining_places_child }}</td>-->
     </tr>
   </tbody>
 </table>

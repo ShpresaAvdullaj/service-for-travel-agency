@@ -7,7 +7,6 @@ from django.conf import settings
 from django.utils.dateparse import parse_date
 
 
-
 @csrf_exempt
 def get_stripe_pubkey(request):
     if request.method == "GET":
@@ -91,5 +90,3 @@ def interval_time(request):
         "trips": trips,
     }
     return render(request, "homepage/home.html", context)
-
-#and trip.date_return < parse_date(q1)
