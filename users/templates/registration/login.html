@@ -8,7 +8,12 @@
 <link rel='stylesheet' href="{% static 'css/login.css' %}">
 </head>
 <body>
-
+<div class="alert alert-warning" role="alert">
+	{% if messages %}
+    {% for message in messages %}
+    {{ message }}
+    {% endfor %}
+    {% endif %}</div>
 
 <div class="container">
 	<figure ><img src="{% static 'images/figured-logo-white-med.png' %}"></figure>
@@ -31,12 +36,7 @@
 				<div class="register"><b>Don't you have an account? <a href="{% url 'register' %}">Register now!</a></b></div>				
 			</form>
 			<div class="alert alert-info alert-dismissible fade in">
-			{% if messages %}
-    {% for message in messages %}
-    {{ message }}
-    {% endfor %}
 </div>
-{% endif %}
 		</div>		
 	</div>
 </div> 

@@ -5,10 +5,14 @@ fetch(PAYMENTS_KEY_URL)
     const stripe = Stripe(data.publicKey);
 
     document.querySelector("#submitBtn").addEventListener("click", () => {
-      const quantity = 1;
+      const quantityElem = document.querySelector('input[name=quantity_a]');
+      const quantity_a = parseInt(quantityElem.value, 10);
+      const quantityElem1 = document.querySelector('input[name=quantity_ch]');
+      const quantity_ch = parseInt(quantityElem1.value, 10);
+  
 
       // Get Checkout Session ID
-      fetch(`${PAYMENTS_CHECKOUT_SESSION_URL}?quantity=${quantity}`)
+      fetch(`${PAYMENTS_CHECKOUT_SESSION_URL}?quantity_a=${quantity_a}&quantity_ch=${quantity_ch}`)
       .then((result) => {
           if (result.status >= 200 && result.status <= 299) {
             return Promise.resolve(result.json());

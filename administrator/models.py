@@ -159,8 +159,8 @@ class Trip(models.Model):
         reserved_for_adults = self.purchases.aggregate(Sum("quantity_a"))
         total = (
             0
-            if reserved_for_adults.get("quantity__sum") is None
-            else reserved_for_adults.get("quantity__sum")
+            if reserved_for_adults.get("quantity_a__sum") is None
+            else reserved_for_adults.get("quantity_a__sum")
         )
         return self.number_of_places_per_adult - total
 
@@ -169,8 +169,8 @@ class Trip(models.Model):
         reserved_for_child = self.purchases.aggregate(Sum("quantity_ch"))
         total = (
             0
-            if reserved_for_child.get("quantity__sum") is None
-            else reserved_for_child.get("quantity__sum")
+            if reserved_for_child.get("quantity_ch__sum") is None
+            else reserved_for_child.get("quantity_ch__sum")
         )
         return self.number_of_places_per_child - total
 
