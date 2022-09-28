@@ -35,8 +35,8 @@
       <th scope="col">Price for adult</th>
       <th scope="col">Seats Children</th>
       <th scope="col">Price Children</th>
-      <!--<th scope="col">Still Available Adult</th>
-      <th scope="col">Still Available Child</th>-->
+      <th scope="col">Still Available Adult</th>
+      <th scope="col">Still Available Child</th>
     </tr>
   </thead>
   <tbody>
@@ -45,8 +45,8 @@
       <td>{{ trip.price_for_adult }} $</td>
       <td>{{ trip.number_of_places_per_child }}</td>
       <td>{{ trip.price_for_child }} $</td>
-      <!--<td>{{ trip.remaining_places_adults }}</td>
-      <td>{{ trip.remaining_places_child }}</td>-->
+      <td>{{ trip.remaining_places_adults }}</td>
+      <td>{{ trip.remaining_places_child }}</td>
     </tr>
   </tbody>
 </table>
@@ -54,8 +54,8 @@
 <section>
 {% if user.is_authenticated %}
 <div class="d-flex justify-content-center align-items-center">
-  <input class="form-control" type="number" name="quantity_a" value="1" max="{{ trip.remaining_places_adults }}" min="1">
-  <input class="form-control" type="number" name="quantity_ch" value="1" max="{{ trip.remaining_places_child }}" min="1">
+  <input class="form-control" type="number" name="quantity_a"  max="{{ trip.remaining_places_adults }}" min="1" placeholder="Enter the number of adults">
+  <input class="form-control" type="number" name="quantity_ch" max="{{ trip.remaining_places_child }}" min="0" placeholder="Enter the number of childrens">
   <button class="btn btn-primary" id="submitBtn">Purchase</button>
 </div>
 {% else %}

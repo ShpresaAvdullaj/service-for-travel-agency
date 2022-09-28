@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.conf import settings
 import stripe
 from django.http import JsonResponse
-from datetime import date
+from django.utils import timezone
 
 # from django.contrib.auth.decorators import login_required, permission_required
 
@@ -18,7 +18,7 @@ from administrator.forms import (
     HotelForm,
     TripModelForm,
 )
-from .models import Airport, City, Continent, Country, Hotel, Trip
+from .models import Airport, City, Continent, Country, Hotel, PurchaseOfATrip, Trip
 
 from django.views.generic import (
     CreateView,
@@ -282,7 +282,7 @@ def get_trip_detail(request, pk):
     """    if trip.date_departure < date.today():
         trip.delete()
         return redirect("trips-list") 
-        delete a trip from available trips""" 
+        delete a trip from available trips"""
     return render(
         request,
         "administrator/trips/trip_detail.html",
@@ -311,9 +311,10 @@ class TripUpdateView(UpdateView):
 @login_required
 def purchase_trips(request, trip_id):
     trip = get_object_or_404(Trip, pk=trip_id)
-   
+
     quantity_a = int(request.GET.get("quantity_a"))
     quantity_ch = int(request.GET.get("quantity_ch"))
+    amount = (trip.price_for_adult * quantity_a * 100 + trip.price_for_child * quantity_ch * 100) // quantity_ch
     if (
         1
         > trip.remaining_places_adults  # per aq kohe sa ka ende vende per nje te rritur
@@ -340,12 +341,7 @@ def purchase_trips(request, trip_id):
                     {
                         "price_data": {
                             "currency": "eur",
-                            "unit_amount": trip.price_for_adult
-                            * quantity_a
-                            * 100
-                            + trip.price_for_child
-                            * quantity_ch
-                            * 100,
+                            "unit_amount": amount,
                             "product_data": {
                                 "name": trip.city_to_where,
                                 "description": trip.hotel_to_where,
@@ -362,6 +358,18 @@ def purchase_trips(request, trip_id):
 
 
 def payment_success(request):
+    trip_id = request.GET.get("trip_id")
+    if trip_id is not None:
+        pk = int(trip_id)
+        quantity_a = int(request.GET.get("quantity_a"))
+        quantity_ch = int(request.GET.get("quantity_ch"))
+        trip = Trip.objects.get(pk=pk)
+        PurchaseOfATrip.objects.create(
+            trip=trip,
+            quantity_a=quantity_a,
+            quantity_ch=quantity_ch,
+            purchased_on=timezone.now(),
+        )
     return render(request, "administrator/payment_success.html")
 
 
