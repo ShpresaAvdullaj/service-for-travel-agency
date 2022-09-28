@@ -18,13 +18,27 @@
         <h1>List of airports</h1>
         <a class="btn btn-primary" href="{% url 'airport-add' %}">Add Airport</a>
     </div>
-    <section>
-    {% for airport in airports %}
-    <div>
-        <a href="{% url 'airport-detail' pk=airport.pk %}" style="text-decoration: none;">{{ airport.name}}</a>
-         {{ airport.city }}
-        </div>
-    {% endfor %}
-    </section>
+         <section>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Airport Name</th>
+                  <th scope="col">Airport City</th>
+                  <th scope="col">Airport Country</th>
+                </tr>
+              </thead>
+              {% for airport in airports %}
+              <tbody>
+                <tr>
+                  <td>
+                    <a href="{% url 'airport-detail' pk=airport.pk %}" style="text-decoration: none;">{{ airport.name}}</a>
+                  </td>
+                  <td>{{ airport.city.name }}</td>
+                  <td>{{ airport.city.country.name }}</td>
+                </tr>
+              </tbody>
+              {% endfor %}
+            </table>
+          </section>
     {% endif %}
     {% endblock content %}

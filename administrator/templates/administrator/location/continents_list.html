@@ -18,17 +18,22 @@
         <h1>List of continents</h1>
         <a class="btn btn-primary" href="{% url 'continent-add' %}">Add Continent</a>
     </div>
-    <section>
-{% for continent in continents %}
-<div>
-    <h3>
-        <a href="{% url 'continent-detail' pk=continent.pk %}" style="text-decoration: none;">
-            {{ continent.name }}
-        </a>
-    </h3>
-    <div>
-    {% endfor %}
-    </section>
+        <section>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Continent Name</th>
+                    </tr>
+                </thead>
+                {% for continent in continents %}
+                <tbody>
+                    <tr>
+                      <td><a href="{% url 'continent-detail' pk=continent.pk %}" style="text-decoration: none;">{{ continent.name }}</a></td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+        </section>
    {% endif %}
     <hr><hr>
     {% endblock content%}

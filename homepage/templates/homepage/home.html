@@ -27,7 +27,7 @@ justify-content: center;
 .child {
 background-color: #a0a088;
 float: left;
-width: 250px;
+width: 350px;
 height: 50px;
 border-radius: 15px;
 text-align: center;
@@ -90,9 +90,10 @@ text-align: center;
     </div>
 </aside>
 {% else %}
-<aside class="parent">
-  <div class="child">UPSS!!! NO RESULTS FOUND!!</div><br>
-  <div> <h4>We are Sorry!! Your search returned zero results.</h4</div>
+<aside class="parent alert alert-primary">
+  <div class="child">UPSS!!! NO RESULTS FOUND!! 
+    We are Sorry!! Your search returned zero results.
+  </div><br>
   </aside>
 {% endif %}
 </div>
