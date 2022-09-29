@@ -18,15 +18,24 @@
     <a class="btn btn-primary" href="{% url 'city-add' %}">Add City</a>
 </div>
 <section>
-{% for city in cities %}
-<div>
-<h3>
-    <a href="{% url 'city-detail' pk=city.pk %}" style="text-decoration: none;">
-        {{ city.name }}
-    
-</h3>
-<div>
-{% endfor %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">City Name</th>
+                <th scope="col">City Country</th>
+                <th scope="col">City Continent</th>
+            </tr>
+        </thead>
+        {% for city in cities %}
+        <tbody>
+            <tr>
+              <td><a href="{% url 'city-detail' pk=city.pk %}" style="text-decoration: none;">{{ city.name }}</a></td>
+              <td>{{ city.country.name }}</td>
+              <td>{{ city.country.continent.name }}</td>
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>
 </section>
 {% endif %}
 {% endblock content %}
