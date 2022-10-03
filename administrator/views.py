@@ -314,7 +314,10 @@ def purchase_trips(request, trip_id):
 
     quantity_a = int(request.GET.get("quantity_a"))
     quantity_ch = int(request.GET.get("quantity_ch"))
-    amount = (trip.price_for_adult * quantity_a * 100 + trip.price_for_child * quantity_ch * 100) // quantity_ch
+    amount = (
+        trip.price_for_adult * quantity_a * 100
+        + trip.price_for_child * quantity_ch * 100
+    ) // quantity_ch
     if (
         1
         > trip.remaining_places_adults  # per aq kohe sa ka ende vende per nje te rritur
@@ -331,7 +334,8 @@ def purchase_trips(request, trip_id):
             + f"&trip_id={trip.pk}&quantity_a={quantity_a}&quantity_ch={quantity_ch}"
         )
         try:
-            # ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the session ID set as a query param
+            # ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the session ID set
+            # as a query param
             checkout_session = stripe.checkout.Session.create(
                 success_url=success_url,
                 cancel_url=domain_url + "payments/cancelled/",

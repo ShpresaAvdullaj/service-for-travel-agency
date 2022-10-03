@@ -125,6 +125,21 @@ class TripModelForm(forms.ModelForm):
             "promoted",
         ]
 
+    def clean_adults(self):
+        number_of_places_per_adult = self.cleaned_data["number_of_places_per_adult"]
+        if number_of_places_per_adult <= 1:
+            return number_of_places_per_adult
+        raise forms.ValidationError("A trip can not start without an adult.")
+
+    def clean_dates(self):
+        date_of_departure = self.cleaned_data["date_of_departure"]
+        date_of_return = self.cleaned_data["date_of_return"]
+        if date_of_return <= date_of_departure:
+            return date_of_departure
+        raise forms.ValidationError(
+            "Client should have some holiday. Please enter the correct date!!"
+        )
+
 
 class PurchaseOfATripForm(forms.ModelForm):
     class Meta:

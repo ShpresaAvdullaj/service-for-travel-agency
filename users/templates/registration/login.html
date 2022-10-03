@@ -16,24 +16,23 @@
     {% endif %}</div>
 
 <div class="container">
-	<figure ><img src="{% static 'images/figured-logo-white-med.png' %}"></figure>
 	<div class="screen">
 		<div class="screen__content">
 			<form class="login" method="POST" action="">
 				{% csrf_token %}
 				<div class="login__field">
 					<i class="login__icon fas fa-user"></i>
-					<input type="text" name="username" class="login__input" placeholder="User name / Email" autocomplete="off">
+					<input type="text" name="username" class="login__input" placeholder="User name" autocomplete="off" style="color: white;">
 				</div>
 				<div class="login__field">
 					<i class="login__icon fas fa-lock"></i>
-					<input type="password" name="password" class="login__input" placeholder="Password">
+					<input type="password" name="password" class="login__input" placeholder="Password" style="color: white;">
 				</div>
 				<button class="button login__submit" type="submit" value="Login">
 					<span class="button__text">Log In Now</span>
 					<i class="button__icon fas fa-chevron-circle-right"></i>
 				</button>
-				<div class="register"><b>Don't you have an account? <a href="{% url 'register' %}">Register now!</a></b></div>				
+				<div class="register" style="color: white;"><b>Don't you have an account? <a href="{% url 'register' %}" style="color: white;">Register now!</a></b></div>				
 			</form>
 			<div class="alert alert-info alert-dismissible fade in">
 </div>

@@ -44,7 +44,7 @@ body {
 .login {
 	width: 320px;
 	padding: 30px;
-	padding-top: 156px;
+	padding-top: 116px;
 }
 
 .login__field {
@@ -55,7 +55,7 @@ body {
 .login__icon {
 	position: absolute;
 	top: 30px;
-	color: #df18a0;
+	color: white;
 }
 
 .login__input {
@@ -109,5 +109,6 @@ body {
 
 .register{
     text-align: center;
-    color: black;
+    color: white;
+	padding-top: 55px;
 }
