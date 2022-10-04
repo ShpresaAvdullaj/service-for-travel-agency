@@ -22,18 +22,6 @@ def register_request(request):
     )
 
 
-"""def sign_up(request):
-    if request.method == "POST":
-        form = UserCreateForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect("home")
-    else:
-        form = UserCreateForm()
-    return render(request, "sign_up.html", {"form": form})
-"""
-
 def loginPage(request):
     if request.user.is_authenticated:
         return redirect("home")
