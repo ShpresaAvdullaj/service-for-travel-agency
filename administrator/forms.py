@@ -1,3 +1,4 @@
+import datetime
 from django import forms
 from .models import (
     City,
@@ -8,6 +9,7 @@ from .models import (
     PurchaseOfATrip,
     Airport,
 )
+from django.core.exceptions import ValidationError
 
 
 class ContinentForm(forms.ModelForm):
@@ -125,18 +127,30 @@ class TripModelForm(forms.ModelForm):
             "promoted",
         ]
 
-    def clean_adults(self):
-        number_of_places_per_adult = self.cleaned_data["number_of_places_per_adult"]
-        if number_of_places_per_adult <= 1:
-            return number_of_places_per_adult
-        raise forms.ValidationError("A trip can not start without an adult.")
+    def clean_number_of_places_per_adult(self):
+        number_places_adult = self.cleaned_data["number_of_places_per_adult"]
+        if number_places_adult >= 1:
+            return number_places_adult
+        raise ValidationError("A trip can not start without an adult.")
+    
+    def clean_date_of_departure(self):
+        datedeparture = self.cleaned_data.get("date_of_departure")
+        if datedeparture.date() < datetime.date.today():
+            return datedeparture
+        raise forms.ValidationError("Still years to pass...")
 
-    def clean_dates(self):
-        date_of_departure = self.cleaned_data["date_of_departure"]
-        date_of_return = self.cleaned_data["date_of_return"]
-        if date_of_return <= date_of_departure:
-            return date_of_departure
-        raise forms.ValidationError(
+    def clean_date_of_return(self):
+        datereturn = self.cleaned_data.get("date_of_return")
+        if datereturn.date() < datetime.date.today():
+            return datereturn
+        raise forms.ValidationError("Still years to pass...")
+
+    def clean(self):
+        datedeparture = self.cleaned_data["date_of_departure"]
+        datereturn = self.cleaned_data["date_of_return"]
+        if datereturn >= datedeparture:
+            return self.cleaned_data
+        raise ValidationError(
             "Client should have some holiday. Please enter the correct date!!"
         )
 

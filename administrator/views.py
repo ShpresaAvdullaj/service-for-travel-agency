@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.contrib import messages
 from django.shortcuts import redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required, permission_required
@@ -254,7 +255,8 @@ def add_trip(request):
         form = TripModelForm(request.POST, request.FILES)
         if form.is_valid():
             trip = form.save()
-            return redirect("trip-detail", pk=trip.pk)
+            messages.info(request, "Trip saved successfully")
+            return redirect(trip, permanent=False)
     else:
         form = TripModelForm()
     return render(request, "administrator/trips/trip_add.html", context={"form": form})
