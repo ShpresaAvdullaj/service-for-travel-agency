@@ -22,7 +22,7 @@
 				{% csrf_token %}
 				<div class="login__field">
 					<i class="login__icon fas fa-user"></i>
-					<input type="text" name="username" class="login__input" placeholder="User name" autocomplete="off" style="color: white;">
+					<input type="text" name="username" class="login__input" placeholder="Username" autocomplete="on" style="color: white;">
 				</div>
 				<div class="login__field">
 					<i class="login__icon fas fa-lock"></i>
@@ -34,9 +34,8 @@
 				</button>
 				<div class="register" style="color: white;"><b>Don't you have an account? <a href="{% url 'register' %}" style="color: white;">Register now!</a></b></div>				
 			</form>
-			<div class="alert alert-info alert-dismissible fade in">
-</div>
-		</div>		
+        </div>
+		
 	</div>
 </div> 
 </body>

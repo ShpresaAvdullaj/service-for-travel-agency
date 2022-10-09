@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.conf import settings
 from django.utils.dateparse import parse_date
+from django.views.generic import ListView
 
 
 @csrf_exempt
@@ -12,6 +13,13 @@ def get_stripe_pubkey(request):
     if request.method == "GET":
         pub_key = settings.STRIPE_PUBLISHABLE_KEY
         return JsonResponse({"publicKey": pub_key})
+
+
+class All(ListView):
+    queryset = Trip.objects.all()
+    template_name = "homepage/home.html"
+    context_object_name = "trips"
+    paginate_by = 4
 
 
 def home(request):

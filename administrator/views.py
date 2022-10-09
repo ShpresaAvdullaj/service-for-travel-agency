@@ -303,6 +303,13 @@ def get_trips_list(request):
     )
 
 
+class TripListView(ListView):
+    queryset = Trip.objects.all()
+    template_name = "administrator/trips/trips_list.html"
+    context_object_name = "trips"
+    paginate_by = 6
+
+
 class TripUpdateView(UpdateView):
     model = Trip
     form_class = TripModelForm

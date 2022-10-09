@@ -49,7 +49,7 @@ body {
 
 .login__field {
 	padding: 20px 0px;	
-	position: relative;	
+	position: relative;
 }
 
 .login__icon {
@@ -73,6 +73,7 @@ body {
 .login__input:focus,
 .login__input:hover {
 	outline: none;
+	background-color:none ;
 	border-bottom-color: #6A679E;
 }
 

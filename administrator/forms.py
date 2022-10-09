@@ -132,7 +132,9 @@ class TripModelForm(forms.ModelForm):
         if number_places_adult >= 1:
             return number_places_adult
         raise ValidationError("A trip can not start without an adult.")
-    
+
+
+""" to be seen in a second moment
     def clean_date_of_departure(self):
         datedeparture = self.cleaned_data.get("date_of_departure")
         if datedeparture.date() < datetime.date.today():
@@ -152,7 +154,7 @@ class TripModelForm(forms.ModelForm):
             return self.cleaned_data
         raise ValidationError(
             "Client should have some holiday. Please enter the correct date!!"
-        )
+        )"""
 
 
 class PurchaseOfATripForm(forms.ModelForm):

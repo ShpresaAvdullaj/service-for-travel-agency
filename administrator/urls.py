@@ -3,7 +3,8 @@ from . import views
 
 urlpatterns = [
     path("administrator/", views.administrator, name="administrator-page"),
-    path("administrator/trips/", views.get_trips_list, name="trips-list"),
+    # path("administrator/trips/", views.get_trips_list, name="trips-list"),
+    path("administrator/trips/", views.TripListView.as_view(), name="trips-list"),
     path("administrator/trips/add/", views.add_trip, name="add-trip"),
     path("administrator/trips/<int:pk>/delete/", views.delete_trip, name="delete-trip"),
     path("administrator/trips/<int:pk>", views.get_trip_detail, name="trip-detail"),
