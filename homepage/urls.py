@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
     path("", views.home, name="home"),
+    path("all/", views.All.as_view(), name="trip-list"),
     path("payments/pubkey/", views.get_stripe_pubkey, name="payments_pubkey"),
     path("all inclusive/", views.type_inclusive, name="all-inclusive"),
     path("half broad", views.type_half_broad, name="half-broad"),

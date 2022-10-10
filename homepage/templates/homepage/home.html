@@ -39,7 +39,7 @@ text-align: center;
     </hr> 
     <div class="alert alert-primary"><i class="fas fa-globe fa-fw me-3"></i>Browse Trips </div>
     <div class="alert alert-info">
-        <a href="{% url 'home' %}" style="text-decoration: none;">All Trips</a>
+        <a href="{% url 'trip-list' %}" style="text-decoration: none;">All Trips</a>
      </div>
      <form class="alert alert-info" role="search" method="get" action="{% url 'interval-time' %}">
       <div><input type="date"  aria-label="Search" name="q"  {% if search_query %} value="{{ search_query }}" {% endif %}></div>
@@ -62,33 +62,52 @@ text-align: center;
      </div>
     </div>
 {% if trips %}
-<aside class="trips-content">
-    <div style="display: flex; flex-direction:row; flex-wrap: wrap">
-        {% for trip in trips %}
-            <div class="card mb-2 mt-5" style="max-width: 410px; max-height: 180px;">
-            <div class="row g-0">
-              <div class="col-md-4">
-                {% if trip.hotel_to_where.photo %}
-                <img class="card-img-top" height="100%" src="{{ trip.hotel_to_where.photo.url }}" alt="Profile picture here ...">
-                {% else %}
-                <div class="alert alert-warning" role="alert">No photo for this hotel</div>
-                {% endif %}
-              </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <h6 class="card-title">{{ trip.city_from_where.name }} to {{ trip.city_to_where.name}}</h6>
-                  <p class="card-text"><h5>
-                    Jorney lasts {{ trip.number_of_days }} from {{ trip.date_departure}} to
-                    {{ trip.date_return }}
-                  </h5></p>
-                </div>
-              </div>
-              <div class="btn btn-info"><a href="{% url 'trip-detail' pk=trip.pk %}" style="text-decoration: none;">Details</a></div>
+<section>
+  <div style="display: flex; flex-direction:row; flex-wrap: wrap">
+      {% for trip in trips %}
+          <div class="card mb-2 mt-5" style="max-width: 410px; max-height: 180px;">
+          <div class="row g-0">
+            <div class="col-md-4">
+              {% if trip.hotel_to_where.photo %}
+              <img class="card-img-top" height="100%" src="{{ trip.hotel_to_where.photo.url }}" alt="Profile picture here ...">
+              {% else %}
+              <div class="alert alert-warning" role="alert">No photo for this hotel</div>
+              {% endif %}
             </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h6 class="card-title">{{ trip.city_from_where.name }} to {{ trip.city_to_where.name}}</h6>
+                <p class="card-text"><h5>
+                  Journey lasts {{ trip.number_of_days }} from {{ trip.date_departure}} to
+                  {{ trip.date_return }}
+                </h5></p>
+              </div>
             </div>
-        {% endfor %}
-    </div>
-</aside>
+            <div class="btn btn-info"><a href="{% url 'trip-detail' pk=trip.pk %}" style="text-decoration: none;">Details</a></div>
+          </div>
+          </div>
+      {% endfor %}
+  </div>
+</div>
+<br><br>
+<div class="pagination" style="margin-left:36% ;">
+  <span class="step-links">
+      {% if page_obj.has_previous %}
+          <div class="btn btn-primary"><a href="?page=1" style="color: white; text-decoration: none;"><i class="bi bi-chevron-bar-left"></i>&laquo;</a></div>
+          <div class="btn btn-primary"><a href="?page={{ page_obj.previous_page_number }}" style="color: white; text-decoration: none;">Previous</a></div>
+      {% endif %}
+
+      <span class="current">
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+      </span>
+
+      {% if page_obj.has_next %}
+          <div class="btn btn-primary"><a href="?page={{ page_obj.next_page_number }}" style="color: white; text-decoration: none;">Next</a></div>
+          <div class="btn btn-primary"><a href="?page={{ page_obj.paginator.num_pages }}" style="color: white; text-decoration: none;"><i class="bi bi-chevron-bar-right"></i>&raquo;</a></div>
+      {% endif %}
+  </span>
+</div>
+</section>
 {% else %}
 <aside class="parent alert alert-primary">
   <div class="child">UPSS!!! NO RESULTS FOUND!! 
