@@ -32,13 +32,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    
     "crispy_forms",
     "crispy_bootstrap5",
     "star_ratings",
     "rest_framework",
     "django_bootstrap_icons",
-
     "administrator",
     "promotions",
     "homepage",
@@ -72,7 +70,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                'django.template.context_processors.request',
+                "django.template.context_processors.request",
             ],
         },
     },
@@ -149,5 +147,37 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Stripe payments
-STRIPE_PUBLISHABLE_KEY = os.environ.get("STRIPE_PUBLISHABLE_KEY","pk_test_51Lj87dDZHTljrfiz8S2ElBsTSO66kF0xKo1EGf3q6G5GEzA9cPlHQRTqSXxYNMsubpdH1SwetqlM90hIgc2ZsoND00hnSIf7Wp")
-STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY","sk_test_51Lj87dDZHTljrfizb7BrCjV18SlIHkTaQAosO7OPMbm8389wwVAKu7HsX0uq6rJTCYhZEkdmhcySU3JIdBu8vxxl00wLIZt9wy")
+STRIPE_PUBLISHABLE_KEY = os.environ.get(
+    "STRIPE_PUBLISHABLE_KEY",
+    "pk_test_51Lj87dDZHTljrfiz8S2ElBsTSO66kF0xKo1EGf3q6G5GEzA9cPlHQRTqSXxYNMsubpdH1SwetqlM90hIgc2ZsoND00hnSIf7Wp",
+)
+STRIPE_SECRET_KEY = os.environ.get(
+    "STRIPE_SECRET_KEY",
+    "sk_test_51Lj87dDZHTljrfizb7BrCjV18SlIHkTaQAosO7OPMbm8389wwVAKu7HsX0uq6rJTCYhZEkdmhcySU3JIdBu8vxxl00wLIZt9wy",
+)
+
+PASSWORD_HASHERS = [
+    "django.contrib.auth.hashers.Argon2PasswordHasher",
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    # 'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    # 'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+    # 'django.contrib.auth.hashers.ScryptPasswordHasher',
+]
+
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "OPTIONS": {
+            "min_length": 9,
+        },
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+    },
+]
