@@ -11,6 +11,7 @@ urlpatterns = [
     path("", include("users.urls")),
     path("", include("promotions.urls")),
     path("api/v1/", include("apiv1.urls")),
+    path('ratings/', include('star_ratings.urls', namespace='ratings')),
 
 ]
 
