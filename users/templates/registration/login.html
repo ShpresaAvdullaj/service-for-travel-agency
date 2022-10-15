@@ -8,7 +8,7 @@
 <link rel='stylesheet' href="{% static 'css/login.css' %}">
 </head>
 <body>
-<div class="alert alert-warning" role="alert">
+<div class="alert alert-warning" role="alert" style="border: white;">
 	{% if messages %}
     {% for message in messages %}
     {{ message }}
@@ -22,7 +22,7 @@
 				{% csrf_token %}
 				<div class="login__field">
 					<i class="login__icon fas fa-user"></i>
-					<input type="text" name="username" class="login__input" placeholder="Username" autocomplete="on" style="color: white;">
+					<input type="text" name="username" class="login__input" placeholder="Username" style="color: white;">
 				</div>
 				<div class="login__field">
 					<i class="login__icon fas fa-lock"></i>
