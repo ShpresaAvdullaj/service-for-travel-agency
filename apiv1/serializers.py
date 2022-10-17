@@ -19,18 +19,19 @@ class TripSerializer(serializers.Serializer):
     promoted = serializers.BooleanField()
 
 
-"""
-this method is to validate the input data while using api pages
-def validate_dates(self, data):
-        if (data['date_of_departure'] > data["date_of_return"]):
-            raise serializers.ValidationError(
-                "Client should have some holiday. Please enter the correct date!!"
-            )
-        return data
-"""
-
-
 class TripModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trip
         fields = "__all__"
+
+    def validate_number_of_places_per_adult(self, value):
+        if value >= 1:
+            return value
+        raise serializers.ValidationError("A trip can not start without an adult.")
+
+    def validate(self, data):
+        if data["date_of_departure"] >= data["date_of_return"]:
+            raise serializers.ValidationError(
+                "Date of departure can not be greater than date of return. Client should have some holidays."
+            )
+        return data

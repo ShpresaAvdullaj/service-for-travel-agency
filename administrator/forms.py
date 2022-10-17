@@ -133,28 +133,16 @@ class TripModelForm(forms.ModelForm):
             return number_places_adult
         raise ValidationError("A trip can not start without an adult.")
 
-
-""" to be seen in a second moment
-    def clean_date_of_departure(self):
-        datedeparture = self.cleaned_data.get("date_of_departure")
-        if datedeparture.date() < datetime.date.today():
-            return datedeparture
-        raise forms.ValidationError("Still years to pass...")
-
-    def clean_date_of_return(self):
-        datereturn = self.cleaned_data.get("date_of_return")
-        if datereturn.date() < datetime.date.today():
-            return datereturn
-        raise forms.ValidationError("Still years to pass...")
-
     def clean(self):
-        datedeparture = self.cleaned_data["date_of_departure"]
-        datereturn = self.cleaned_data["date_of_return"]
-        if datereturn >= datedeparture:
-            return self.cleaned_data
-        raise ValidationError(
-            "Client should have some holiday. Please enter the correct date!!"
-        )"""
+        cleaned_data = super().clean()
+        date_of_departure = cleaned_data.get("date_of_departure")
+        date_of_return = cleaned_data.get("date_of_return")
+
+        if date_of_departure >= date_of_return:
+            raise ValidationError(
+                "Date of departure can not be greater than date of return. Client should have some holidays."
+            )
+        return date_of_departure, date_of_return
 
 
 class PurchaseOfATripForm(forms.ModelForm):
