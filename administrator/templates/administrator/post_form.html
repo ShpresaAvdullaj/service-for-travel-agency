@@ -1,0 +1,12 @@
+{% extends 'administrator/index_location.html' %} {% load crispy_forms_tags %} {% block content %}
+<br><hr>
+<h1>Your review for trip number <em>{{ trip.pk }}</em></h1>
+<hr>
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form|crispy}}
+    <div class="text-center">
+        <button class="btn btn-primary" type="submit">Save</button>
+    </div>
+</form>
+{% endblock content %}

@@ -22,6 +22,13 @@
           <p class="card-text"><h3>
             {{ trip.type }} {{ trip.promoted }}  Journey lasts {{ trip.number_of_days }} from {{ trip.date_of_departure}} to {{ trip.date_of_return }}
           </h3></p>
+          <form action="{% url 'like-trip'  trip.pk %}" method="POST">
+            {% csrf_token %}
+            <button type="submit", name="trip_id", value="{{trip.id}}", class="btn btn-primary btn-sm">Like</button>
+            <a href="{% url 'post-trip' pk=trip.pk %}" class="btn btn-secondary btn-sm">Comment</a>
+            <strong>{{ trip.liked.all.count }} likes</strong>
+            </form>
+          
         </div>
       </div>
     </div>
@@ -59,11 +66,22 @@
   <button class="btn btn-primary" id="submitBtn">Purchase</button>
 </div>
 {% else %}
-<hr><hr>
 <div class="btn btn-warning" style="text-align:center; width: 100%;">
 <p>Please login<a href="{% url 'login' %}"> here</a> to reserve a trip!!</p>
 </div>
 {% endif %}
+{% if qs %}
+<div class="box" style="width:800px; background-color:#F5F2F2; border:1px solid black;border-radius: 10px;margin-top: 2%;margin-right: 3%;">
+  <h4>Comments</h4>
+    {% for obj in qs %}
+    {% if obj.trip.id == trip.pk %}
+    <h6>{{ obj.user.username }}</h6>
+    <ul>{{ obj.title }} {{ obj.body }} {{ obj.created }}</ul>
+    {% endif %}
+    {% endfor %}
+{% else %}
+<p>No posts for this trip</p>
+</div>{% endif %}
 </section>
 {% endblock content %}
 {% block scripts %}
