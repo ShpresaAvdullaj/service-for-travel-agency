@@ -63,6 +63,7 @@ text-align: center;
     </div>
 {% if trips %}
 <section>
+  <h4>The trip with most likes is the trip from {{ trips.0.city_from_where }} to {{ trips.0.city_to_where }}</h4>
   <div style="display: flex; flex-direction:row; flex-wrap: wrap">
       {% for trip in trips %}
           <div class="card mb-2 mt-5" style="max-width: 410px; max-height: 180px;">

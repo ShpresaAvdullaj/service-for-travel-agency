@@ -14,9 +14,10 @@
 {% endblock styles %}
 {% block content %}
 <br><br><br>
+<h4>The trip with most likes is the trip from {{ trips.0.city_from_where }} to {{ trips.0.city_to_where }}</h4>
 {% if perms.app_label.addtrip %}
 <div class="header-title">
-    <h1>List of trips</h1>
+    <h1>List of trips </h1>
     <a class="btn btn-primary" href="{% url 'add-trip' %}">Add Trip</a>
 </div>
 
@@ -42,7 +43,7 @@
   </nav>
 </div>-->
 <section>
-    {% if trips %} 
+    {% if trips %}
     <div style="display: flex; flex-direction:row; flex-wrap: wrap">
         {% for trip in trips %}
             <div class="card mb-2 mt-5" style="max-width: 410px; max-height: 180px;">
