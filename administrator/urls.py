@@ -2,6 +2,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path("administrator/trips/<int:pk>/like/", views.like_trip, name="like-trip"),
+    path("administrator/trips/<int:pk>/post/", views.write_post, name="post-trip"),
     path("administrator/", views.administrator, name="administrator-page"),
     # path("administrator/trips/", views.get_trips_list, name="trips-list"),
     path("administrator/trips/", views.TripListView.as_view(), name="trips-list"),

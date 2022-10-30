@@ -1,12 +1,12 @@
 from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib import messages
 from django.shortcuts import redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required, permission_required
 from django.conf import settings
 import stripe
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.utils import timezone
 
 # from django.contrib.auth.decorators import login_required, permission_required
@@ -17,9 +17,19 @@ from administrator.forms import (
     ContinentForm,
     CountryForm,
     HotelForm,
+    PostForm,
     TripModelForm,
 )
-from .models import Airport, City, Continent, Country, Hotel, PurchaseOfATrip, Trip
+from .models import (
+    Airport,
+    City,
+    Continent,
+    Country,
+    Hotel,
+    Post,
+    PurchaseOfATrip,
+    Trip,
+)
 
 from django.views.generic import (
     CreateView,
@@ -28,6 +38,13 @@ from django.views.generic import (
     DetailView,
     UpdateView,
 )
+
+
+@login_required
+def like_trip(request, pk):
+    trip = get_object_or_404(Trip, id=request.POST.get("trip_id"))
+    trip.liked.add(request.user)
+    return HttpResponseRedirect(reverse("trip-detail", args=[str(pk)]))
 
 
 # BASE TEMPLATE OF ADMINISTRATOR FIELD
@@ -273,8 +290,33 @@ def delete_trip(request, pk):
     )
 
 
+@login_required
+def write_post(request, pk):
+    trip = get_object_or_404(Trip, pk=pk)
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.trip = trip
+            post.user = request.user
+            post.save()
+            return redirect("trip-detail", pk=trip.pk)
+    else:
+        form = PostForm()
+    return render(
+        request,
+        "administrator/post_form.html",
+        context={
+            "form": form,
+            "trip": trip,
+        },
+    )
+
+
 def get_trip_detail(request, pk):
     trip = get_object_or_404(Trip, pk=pk)
+    qs = Post.objects.all()
+
     purchases = trip.purchases.all()
     revenue = sum(
         trip.price_for_adult * purchase.quantity_a
@@ -285,11 +327,9 @@ def get_trip_detail(request, pk):
         trip.delete()
         return redirect("trips-list") 
         delete a trip from available trips"""
-    return render(
-        request,
-        "administrator/trips/trip_detail.html",
-        context={"trip": trip, "revenue": revenue},
-    )
+
+    context = {"qs": qs, "trip": trip, "revenue": revenue}
+    return render(request, "administrator/trips/trip_detail.html", context)
 
 
 def get_trips_list(request):
@@ -388,3 +428,4 @@ def payment_success(request):
 
 def payment_cancel(request):
     return render(request, "administrator/payment_cancelled.html")
+

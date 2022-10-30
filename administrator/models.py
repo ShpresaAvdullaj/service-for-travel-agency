@@ -1,6 +1,8 @@
 from django.db import models
 from django.urls import reverse
 from django.db.models import Sum
+from django.contrib.auth.models import User
+from django.conf import settings
 
 
 class Continent(models.Model):
@@ -131,10 +133,15 @@ class Trip(models.Model):
     number_of_places_per_child = models.IntegerField(default=0)
     type = models.CharField(max_length=10, choices=TYPES)
     promoted = models.BooleanField(default=False)
+    liked = models.ManyToManyField(User, default=None, blank=True, related_name="liked")
 
     class Meta:
         db_table = "trips"
         permissions = [("addtrip", " Add Trip"), ("deletetrip", "Delete Trip")]
+
+    @property
+    def num_likes(self):
+        return self.liked.all().count()
 
     @property
     def number_of_days(self):
@@ -192,3 +199,17 @@ class PurchaseOfATrip(models.Model):
 
     def __str__(self):
         return f"Your trip{self.trip}{self.purchased_on}"
+
+
+class Post(models.Model):
+    title = models.CharField(max_length=150)
+    body = models.TextField()
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.title)
+
+

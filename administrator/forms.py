@@ -1,10 +1,10 @@
-import datetime
 from django import forms
 from .models import (
     City,
     Continent,
     Country,
     Hotel,
+    Post,
     Trip,
     PurchaseOfATrip,
     Airport,
@@ -125,6 +125,7 @@ class TripModelForm(forms.ModelForm):
             "number_of_places_per_child",
             "type",
             "promoted",
+            "liked"
         ]
 
     def clean_number_of_places_per_adult(self):
@@ -149,3 +150,12 @@ class PurchaseOfATripForm(forms.ModelForm):
     class Meta:
         model = PurchaseOfATrip
         fields = "__all__"
+
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = [
+            "title",
+            "body",
+        ]
