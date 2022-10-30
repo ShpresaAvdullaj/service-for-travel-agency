@@ -74,10 +74,8 @@
 <div class="box" style="width:800px; background-color:#F5F2F2; border:1px solid black;border-radius: 10px;margin-top: 2%;margin-right: 3%;">
   <h4>Comments</h4>
     {% for obj in qs %}
-    {% if obj.trip.id == trip.pk %}
     <h6>{{ obj.user.username }}</h6>
     <ul>{{ obj.title }} {{ obj.body }} {{ obj.created }}</ul>
-    {% endif %}
     {% endfor %}
 {% else %}
 <p>No posts for this trip</p>

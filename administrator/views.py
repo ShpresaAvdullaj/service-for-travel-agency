@@ -40,13 +40,6 @@ from django.views.generic import (
 )
 
 
-@login_required
-def like_trip(request, pk):
-    trip = get_object_or_404(Trip, id=request.POST.get("trip_id"))
-    trip.liked.add(request.user)
-    return HttpResponseRedirect(reverse("trip-detail", args=[str(pk)]))
-
-
 # BASE TEMPLATE OF ADMINISTRATOR FIELD
 def administrator(request):
     return render(request, "administrator/index.html")
@@ -313,10 +306,16 @@ def write_post(request, pk):
     )
 
 
+@login_required
+def like_trip(request, pk):
+    trip = get_object_or_404(Trip, id=request.POST.get("trip_id"))
+    trip.liked.add(request.user)
+    return HttpResponseRedirect(reverse("trip-detail", args=[str(pk)]))
+
+
 def get_trip_detail(request, pk):
     trip = get_object_or_404(Trip, pk=pk)
-    qs = Post.objects.all()
-
+    qs = Post.objects.select_related("trip", "user").filter(trip_id=trip.pk)
     purchases = trip.purchases.all()
     revenue = sum(
         trip.price_for_adult * purchase.quantity_a
@@ -428,4 +427,3 @@ def payment_success(request):
 
 def payment_cancel(request):
     return render(request, "administrator/payment_cancelled.html")
-

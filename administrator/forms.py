@@ -125,7 +125,7 @@ class TripModelForm(forms.ModelForm):
             "number_of_places_per_child",
             "type",
             "promoted",
-            "liked"
+            "liked",
         ]
 
     def clean_number_of_places_per_adult(self):
