@@ -1,3 +1,4 @@
+from django.db.models import Max
 from django.db import models
 from django.urls import reverse
 from django.db.models import Sum
@@ -140,10 +141,6 @@ class Trip(models.Model):
         permissions = [("addtrip", " Add Trip"), ("deletetrip", "Delete Trip")]
 
     @property
-    def num_likes(self):
-        return self.liked.all().count()
-
-    @property
     def number_of_days(self):
         return self.date_of_return.date() - self.date_of_departure.date()
 
@@ -211,3 +208,14 @@ class Post(models.Model):
 
     def __str__(self):
         return str(self.title)
+
+
+"""
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE, default=None)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.trip)
+"""

@@ -1,3 +1,4 @@
+from django.db.models import Count
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.contrib import messages
@@ -316,6 +317,7 @@ def like_trip(request, pk):
 def get_trip_detail(request, pk):
     trip = get_object_or_404(Trip, pk=pk)
     qs = Post.objects.select_related("trip", "user").filter(trip_id=trip.pk)
+    num_likes = trip.liked.all().count()
     purchases = trip.purchases.all()
     revenue = sum(
         trip.price_for_adult * purchase.quantity_a
@@ -327,7 +329,7 @@ def get_trip_detail(request, pk):
         return redirect("trips-list") 
         delete a trip from available trips"""
 
-    context = {"qs": qs, "trip": trip, "revenue": revenue}
+    context = {"qs": qs, "trip": trip, "revenue": revenue, "num_likes": num_likes}
     return render(request, "administrator/trips/trip_detail.html", context)
 
 
@@ -343,10 +345,12 @@ def get_trips_list(request):
 
 
 class TripListView(ListView):
-    queryset = Trip.objects.all()
+    queryset = Trip.objects.annotate(total_likes=Count("liked")).order_by("-total_likes")
     template_name = "administrator/trips/trips_list.html"
     context_object_name = "trips"
     paginate_by = 6
+    # to find the trip with most likes first i order the trips in a descending order and then get
+    # the first one which is the trip with most likes
 
 
 class TripUpdateView(UpdateView):

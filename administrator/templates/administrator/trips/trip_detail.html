@@ -26,7 +26,7 @@
             {% csrf_token %}
             <button type="submit", name="trip_id", value="{{trip.id}}", class="btn btn-primary btn-sm">Like</button>
             <a href="{% url 'post-trip' pk=trip.pk %}" class="btn btn-secondary btn-sm">Comment</a>
-            <strong>{{ trip.liked.all.count }} likes</strong>
+            <strong>{{ num_likes }} likes</strong>
             </form>
           
         </div>
