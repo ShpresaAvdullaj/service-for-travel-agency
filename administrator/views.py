@@ -326,7 +326,7 @@ def get_trip_detail(request, pk):
     )
     """    if trip.date_departure < date.today():
         trip.delete()
-        return redirect("trips-list") 
+        return redirect("trips-list")
         delete a trip from available trips"""
 
     context = {"qs": qs, "trip": trip, "revenue": revenue, "num_likes": num_likes}
