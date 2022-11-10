@@ -1,5 +1,4 @@
 from django.urls import path
-
 from . import views
 
 urlpatterns = [
@@ -12,4 +11,6 @@ urlpatterns = [
     path("bed breakfast", views.type_bed_breakfast, name="bed-breakfast"),
 
     path("interval_time/", views.interval_time, name="interval-time"),
+    path("feedback", views.FeedbackFormView.as_view(), name="feedback"),
+    path("success/", views.SuccessView.as_view(), name="success"),
 ]
