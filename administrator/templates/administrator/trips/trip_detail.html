@@ -24,7 +24,11 @@
           </h3></p>
           <form action="{% url 'like-trip'  trip.pk %}" method="POST">
             {% csrf_token %}
+            {% if trip_is_liked %}
+            <button type="submit", name="trip_id", value="{{trip.id}}", class="btn btn-danger btn-sm">UnLike</button>
+            {% else %}
             <button type="submit", name="trip_id", value="{{trip.id}}", class="btn btn-primary btn-sm">Like</button>
+            {% endif %}
             <a href="{% url 'post-trip' pk=trip.pk %}" class="btn btn-secondary btn-sm">Comment</a>
             <strong>{{ num_likes }} likes</strong>
             </form>

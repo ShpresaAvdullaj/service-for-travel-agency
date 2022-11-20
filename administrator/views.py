@@ -6,6 +6,7 @@ from django.shortcuts import redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required, permission_required
 from django.conf import settings
+from django.contrib.auth.models import User
 import stripe
 from django.http import JsonResponse, HttpResponseRedirect
 from django.utils import timezone
@@ -310,12 +311,19 @@ def write_post(request, pk):
 @login_required
 def like_trip(request, pk):
     trip = get_object_or_404(Trip, id=request.POST.get("trip_id"))
-    trip.liked.add(request.user)
+    if trip.liked.filter(id=request.user.id).exists():
+        trip.liked.remove(request.user)
+    else:
+        trip.liked.add(request.user)
     return HttpResponseRedirect(reverse("trip-detail", args=[str(pk)]))
 
 
 def get_trip_detail(request, pk):
     trip = get_object_or_404(Trip, pk=pk)
+    is_liked = False
+    if trip.liked.filter(id=request.user.id).exists():
+        is_liked = True
+    is_liked = False
     qs = Post.objects.select_related("trip", "user").filter(trip_id=trip.pk)
     num_likes = trip.liked.all().count()
     purchases = trip.purchases.all()
@@ -329,7 +337,7 @@ def get_trip_detail(request, pk):
         return redirect("trips-list")
         delete a trip from available trips"""
 
-    context = {"qs": qs, "trip": trip, "revenue": revenue, "num_likes": num_likes}
+    context = {"qs": qs, "trip": trip, "revenue": revenue, "num_likes": num_likes, "is_liked": is_liked}
     return render(request, "administrator/trips/trip_detail.html", context)
 
 
