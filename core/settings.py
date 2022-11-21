@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.postgres",
     "crispy_forms",
     "crispy_bootstrap5",
     "star_ratings",
@@ -90,11 +91,21 @@ REST_FRAMEWORK = {
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
+"""
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
+    }
+}"""
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'travel-agency',
+        'USER': 'postgres',
+        'PASSWORD': 'shpresa1234',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 

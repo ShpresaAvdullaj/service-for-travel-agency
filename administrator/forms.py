@@ -142,7 +142,7 @@ class TripModelForm(forms.ModelForm):
             raise ValidationError(
                 "Date of departure can not be greater than date of return. Client should have some holidays."
             )
-        return date_of_departure, date_of_return
+        return cleaned_data
 
 
 class PurchaseOfATripForm(forms.ModelForm):
