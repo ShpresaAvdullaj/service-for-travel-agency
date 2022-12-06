@@ -4,7 +4,7 @@ Final Project: SDA Python from Scratch - SERVICE FOR A TRAVEL AGENCY
 `git clone [Service for a travel agency](https://github.com/ShpresaAvdullaj/service-for-travel-agency.git)`
 * Enter the directory where the code was cloned and create a virtual environment
 
-`cd online-store`
+`cd service-for-travel-agency`
 `python -m venv venv`
 * Activate the virtual environment
 
